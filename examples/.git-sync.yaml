@@ -1,0 +1,31 @@
+# .git-sync.yaml
+#
+# Place this file at the root of your project to declare external
+# repository dependencies managed by git-sync.
+#
+# Each top-level key is a logical name for the dependency.
+
+chart-lib:
+  path: external/chart-lib
+  git-repo: https://github.com/example/chart-lib.git
+  mode: update-branch
+  current-branch: main
+  current-commit: abc1234def5678
+  create-on-missing: true
+  ensure-in-git-ignore: true
+  # Experimental: auto-commit tracked file changes in this sub-repo
+  # when snapshotting (e.g. during parent pre-commit hook)
+  commit-tracked-files-on-parent-commit: false
+  # Experimental: push the sub-repo after auto-committing
+  push-after-auto-commit: false
+
+shared-config:
+  path: vendor/shared-config
+  git-repo: https://github.com/example/shared-config.git
+  mode: checkout-commit
+  current-branch: release-v2
+  current-commit: v2.1.0
+  create-on-missing: true
+  ensure-in-git-ignore: true
+  commit-tracked-files-on-parent-commit: false
+  push-after-auto-commit: false

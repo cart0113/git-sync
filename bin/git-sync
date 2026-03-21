@@ -1,0 +1,130 @@
+#!/usr/bin/env bash
+#
+# git-sync - Compose independent git repositories into a pseudo-monorepo
+#
+# Manages external repository dependencies declared in .git-sync.yaml.
+# Supports two modes:
+#   checkout-commit - pin to a specific commit or tag
+#   update-branch   - track and pull the latest on a branch
+
+set -euo pipefail
+
+# Resolve symlinks so git-sync works when symlinked into other locations
+resolve_path() {
+    local target="$1"
+    while [[ -L "$target" ]]; do
+        local link_dir
+        link_dir="$(cd "$(dirname "$target")" && pwd -P)"
+        target="$(readlink "$target")"
+        [[ "$target" != /* ]] && target="$link_dir/$target"
+    done
+    echo "$target"
+}
+
+REAL_SCRIPT="$(resolve_path "${BASH_SOURCE[0]}")"
+SCRIPT_DIR="$(cd "$(dirname "$REAL_SCRIPT")" && pwd -P)"
+LIB_DIR="${SCRIPT_DIR}/../lib"
+
+source "${LIB_DIR}/config.sh"
+source "${LIB_DIR}/sync.sh"
+source "${LIB_DIR}/snapshot.sh"
+source "${LIB_DIR}/hooks.sh"
+
+usage() {
+    cat <<EOF
+git-sync - compose independent git repositories into a pseudo-monorepo
+
+Usage: git-sync <command> [options]
+
+Commands:
+  sync              Clone missing repos and update all to configured state
+  snapshot [-m msg] Record current branch/commit of all managed repos into .git-sync.yaml
+                    -m: commit message for auto-committing dirty sub-repos
+                        (used with commit-tracked-files-on-parent-commit: true)
+  init              Install git hooks (pre-commit snapshot, post-merge sync)
+  uninit            Remove git-sync git hooks
+  status            Show current state of all managed repos
+  help              Show this help message
+
+Configuration:
+  Place a .git-sync.yaml file at your project root. See examples/ for format.
+EOF
+}
+
+cmd_status() {
+    check_yq_installed || return 1
+    config_exists || { echo "No .git-sync.yaml found in project root."; return 1; }
+
+    local repos
+    repos=$(config_list_repos) || return 1
+    local project_root
+    project_root=$(git rev-parse --show-toplevel 2>/dev/null) || return 1
+
+    while IFS= read -r repo_name; do
+        local path mode
+        path=$(config_get "$repo_name" "path")
+        mode=$(config_get "$repo_name" "mode")
+        local full_path="${project_root}/${path}"
+
+        echo "--- ${repo_name} ---"
+        echo "  Path: ${path}"
+        echo "  Mode: ${mode}"
+
+        if [[ ! -d "$full_path/.git" ]]; then
+            echo "  State: NOT CLONED"
+        else
+            cd "$full_path"
+            local branch commit dirty=""
+            branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+            commit=$(git rev-parse --short HEAD 2>/dev/null)
+            if ! git diff-index --quiet HEAD -- 2>/dev/null; then
+                dirty=" (dirty)"
+            fi
+            echo "  Branch: ${branch}"
+            echo "  Commit: ${commit}${dirty}"
+            cd "$project_root"
+        fi
+        echo ""
+    done <<< "$repos"
+}
+
+main() {
+    check_yq_installed || exit 1
+
+    local command="${1:-help}"
+
+    case "$command" in
+        sync)
+            config_exists || { echo "No .git-sync.yaml found. Create one or see examples/."; exit 1; }
+            sync_all
+            ;;
+        snapshot)
+            config_exists || { echo "No .git-sync.yaml found."; exit 1; }
+            shift
+            local snapshot_message="$GIT_SYNC_COMMIT_MESSAGE"
+            if [[ "${1:-}" == "-m" && -n "${2:-}" ]]; then
+                snapshot_message="$2"
+            fi
+            snapshot_all "$snapshot_message"
+            ;;
+        init)
+            install_hooks
+            ;;
+        uninit)
+            uninstall_hooks
+            ;;
+        status)
+            cmd_status
+            ;;
+        help|--help|-h)
+            usage
+            ;;
+        *)
+            echo "Unknown command: $command"
+            usage
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"
