@@ -21,9 +21,10 @@ GIT_SYNC_MAX_DEPTH="${GIT_SYNC_MAX_DEPTH:-10}"
 GIT_SYNC_COMMIT_MESSAGE="${GIT_SYNC_COMMIT_MESSAGE:-git-sync: auto-commit tracked changes}"
 
 auto_commit_tracked_files() {
-    local full_path="$1"
-    local message="$2"
-    local should_push="$3"
+    local repo_name="$1"
+    local full_path="$2"
+    local message="$3"
+    local should_push="$4"
 
     cd "$full_path" || return 1
 
@@ -39,16 +40,18 @@ auto_commit_tracked_files() {
 
     echo "  Auto-committing tracked changes in ${full_path}..."
     git add -u
-    git commit -m "$prefixed_message" --quiet || {
-        echo "  ERROR: auto-commit failed" >&2
+    local commit_output
+    commit_output=$(git commit -m "$prefixed_message" 2>&1) || {
+        report_subrepo_error "$repo_name" "auto-commit tracked changes" "$commit_output"
         return 1
     }
     echo "  Auto-committed."
 
     if [[ "$should_push" == "true" ]]; then
         echo "  Pushing ${full_path}..."
-        git push --quiet || {
-            echo "  ERROR: push failed" >&2
+        local push_output
+        push_output=$(git push 2>&1) || {
+            report_subrepo_error "$repo_name" "push after auto-commit" "$push_output"
             return 1
         }
         echo "  Pushed."
@@ -87,7 +90,7 @@ snapshot_repo() {
 
     if [[ "$is_dirty" == "true" ]]; then
         if [[ "$auto_commit" == "true" ]]; then
-            auto_commit_tracked_files "$full_path" "$commit_message" "$should_push"
+            auto_commit_tracked_files "$repo_name" "$full_path" "$commit_message" "$should_push"
         else
             echo "  WARNING: ${repo_name} has uncommitted changes - snapshot may not reflect clean state"
         fi

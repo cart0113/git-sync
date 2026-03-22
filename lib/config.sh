@@ -59,6 +59,25 @@ config_get_with_default() {
     fi
 }
 
+report_subrepo_error() {
+    local repo_name="$1"
+    local summary="$2"
+    local git_output="$3"
+
+    local header="git-sync: sub-repo '${repo_name}' failed: ${summary}"
+    local separator
+    separator=$(printf '%*s' "${#header}" '' | tr ' ' '-')
+
+    echo "" >&2
+    echo "  ${header}" >&2
+    echo "  ${separator}" >&2
+    echo "" >&2
+    if [[ -n "$git_output" ]]; then
+        echo "$git_output" >&2
+        echo "" >&2
+    fi
+}
+
 check_yq_installed() {
     if ! command -v yq &>/dev/null; then
         echo "ERROR: yq is required but not installed." >&2

@@ -42,8 +42,9 @@ sync_repo() {
             return 0
         fi
         echo "  Cloning ${git_repo} -> ${full_path}"
-        git clone "$git_repo" "$full_path" || {
-            echo "  ERROR: failed to clone ${git_repo}" >&2
+        local clone_output
+        clone_output=$(git clone "$git_repo" "$full_path" 2>&1) || {
+            report_subrepo_error "$repo_name" "clone from ${git_repo}" "$clone_output"
             return 1
         }
     fi
@@ -61,8 +62,9 @@ sync_repo() {
             git fetch --all --tags --quiet
             if [[ -n "$current_commit" && "$current_commit" != "null" ]]; then
                 echo "  Checking out: ${current_commit}"
-                git checkout "$current_commit" --quiet || {
-                    echo "  ERROR: failed to checkout ${current_commit}" >&2
+                local checkout_output
+                checkout_output=$(git checkout "$current_commit" 2>&1) || {
+                    report_subrepo_error "$repo_name" "checkout ${current_commit}" "$checkout_output"
                     cd "$project_root"
                     return 1
                 }
@@ -75,21 +77,23 @@ sync_repo() {
             current=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
             if [[ "$current" != "$current_branch" ]]; then
                 echo "  Switching to branch: ${current_branch}"
-                git checkout "$current_branch" --quiet || {
-                    echo "  ERROR: failed to checkout branch ${current_branch}" >&2
+                local branch_output
+                branch_output=$(git checkout "$current_branch" 2>&1) || {
+                    report_subrepo_error "$repo_name" "checkout branch ${current_branch}" "$branch_output"
                     cd "$project_root"
                     return 1
                 }
             fi
             echo "  Pulling latest..."
-            git pull --quiet || {
-                echo "  ERROR: pull failed on ${repo_name} - resolve conflicts manually" >&2
+            local pull_output
+            pull_output=$(git pull 2>&1) || {
+                report_subrepo_error "$repo_name" "pull (resolve conflicts manually)" "$pull_output"
                 cd "$project_root"
                 return 1
             }
             ;;
         *)
-            echo "  ERROR: unknown mode '${mode}' for ${repo_name}" >&2
+            report_subrepo_error "$repo_name" "unknown mode '${mode}'" ""
             cd "$project_root"
             return 1
             ;;
