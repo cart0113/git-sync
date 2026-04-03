@@ -1,4 +1,4 @@
-# CONTEXT.md
+# AGENT.md
 
 This file provides guidance to AI assistants when working with code in this repository.
 
@@ -22,11 +22,12 @@ If ~/.context.md doesn't exist, notify the user.
 ## Code Structure
 
 ```
-bin/git-sync      # main entry point
+bin/git-sync          # main entry point
 lib/config.sh         # YAML config parsing (requires yq)
 lib/sync.sh           # clone, pull, checkout operations
 lib/hooks.sh          # git hook installation/management
 lib/gitignore.sh      # .gitignore management
+context-db/           # project knowledge database
 docs/                 # GitHub Pages documentation (Jekyll)
 examples/             # example .git-sync.yaml files
 ```
@@ -51,10 +52,9 @@ bin/git-sync snapshot   # update .git-sync.yaml with current commits
 bin/git-sync init       # install git hooks
 ```
 
-## Documentation
+## context-db
 
-- Only `CONTEXT.md` at project root - all other docs go in `docs/`
-- Docs are served via GitHub Pages using Jekyll
+Read `context-db/context-db-instructions.md` for the project knowledge database.
 
 ## Git Commits
 
