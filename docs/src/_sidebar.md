@@ -1,6 +1,6 @@
 - **Overview**
   - [git-sync](overview/overview.md)
-  - [Overview Toc](overview/overview-toc.md)
+
 - **Guide**
   - [Usage Guide](guide/usage.md)
 - **Reference**

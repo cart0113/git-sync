@@ -36,7 +36,10 @@ When creating or updating context documents:
   in the TOC. Write the most useful, concise summary possible.
 - **Fix stale content.** If a context document contradicts the current code,
   correct it or remove it.
-- Run `bin/build_toc.sh` to regenerate TOC files after changes.
+- Run `bin/build_toc.sh context-db/` to regenerate TOC files after changes.
+  **Always pass `context-db/` as the argument.** Running without it scans the
+  entire repo and generates spurious TOC files in any directory that has a
+  `<dirname>.md` file (e.g., `docs/src/overview/overview.md`).
 - **Never edit `-toc.md` files.** They are generated automatically.
 
 Documents can optionally include `status: draft`, `status: stable`, or

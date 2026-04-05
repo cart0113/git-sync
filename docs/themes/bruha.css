@@ -248,8 +248,17 @@ html.ext-folder-chevron
   box-sizing: border-box;
   text-decoration: none !important;
   padding: 0 1.5rem;
-  border-right: 1px solid var(--t-border);
   height: 100%;
+  position: relative;
+}
+
+.ext-top-brand::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 12.5%;
+  height: 75%;
+  border-right: 1px solid var(--t-border);
 }
 
 .ext-top-brand-icon {
@@ -348,8 +357,17 @@ html.ext-folder-chevron
   display: flex;
   align-items: center;
   padding: 0 1rem 0 0.5rem;
-  border-left: 1px solid var(--t-border);
   height: 100%;
+  position: relative;
+}
+
+.ext-top-search::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12.5%;
+  height: 75%;
+  border-left: 1px solid var(--t-border);
 }
 
 .ext-top-search-btn {
@@ -496,7 +514,7 @@ html.ext-has-top-nav .sidebar .search {
 }
 
 html.ext-has-top-nav .sidebar {
-  padding-top: calc(var(--t-top-nav-height, 58px) + 3px) !important;
+  padding-top: calc(var(--t-top-nav-height, 58px) + 12px) !important;
 }
 
 html.ext-has-top-nav section.content {
