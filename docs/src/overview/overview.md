@@ -14,7 +14,7 @@ The problems are well documented:
 - [Git Submodules are awful but occasionally necessary](https://www.feoh.org/posts/git-submodules-are-awful-but-occasionally-necessary.html) (2024) — calls submodules "a fractal of bad UX" that leave you "trapped in an unendingly frustrating purgatory of bad error messages, unclear working states"
 - [Reasons to avoid Git submodules](https://blog.timhutt.co.uk/against-submodules/) (2024) — git worktrees don't work reliably with submodules, switching branches leaves ghost files requiring manual cleanup, and submodule URLs hurt repo portability
 
-I didn't need most of what submodule does. I just wanted to compose repos together and keep them in sync. So I wrote a tool that does exactly that — not an exhaustive replacement for git submodule, but a focused tool that covers the work patterns I actually use, in bash scripts I can read and fix when something goes wrong.
+I didn't need most of what submodule does. I just wanted to compose repos together and keep them in sync. So I wrote a tool that does exactly that — not an exhaustive replacement for git submodule, but a focused tool that covers the work patterns I (or usually an agent) actually use, in bash scripts I can read and fix when something goes wrong.
 
 ## What is git-sync?
 
