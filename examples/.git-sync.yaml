@@ -29,3 +29,19 @@ shared-config:
   ensure-in-git-ignore: true
   commit-tracked-files-on-parent-commit: false
   push-after-auto-commit: false
+
+# Pull-only sparse checkout example:
+# Syncs only the context-db/ folder from another repo.
+# read-only: errors on dirty, skips snapshot.
+# sparse-paths: only these paths are checked out (git sparse-checkout).
+other-project-context:
+  path: .git-sync-repos/other-project
+  git-repo: https://github.com/example/other-project.git
+  mode: update-branch
+  current-branch: main
+  current-commit: null
+  create-on-missing: true
+  ensure-in-git-ignore: true
+  read-only: true
+  sparse-paths:
+    - context-db/

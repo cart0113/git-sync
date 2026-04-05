@@ -61,14 +61,22 @@ cmd_status() {
     project_root=$(git rev-parse --show-toplevel 2>/dev/null) || return 1
 
     while IFS= read -r repo_name; do
-        local path mode
+        local path mode read_only sparse_paths
         path=$(config_get "$repo_name" "path")
         mode=$(config_get "$repo_name" "mode")
+        read_only=$(config_get_with_default "$repo_name" "read-only" "false")
+        sparse_paths=$(config_get_list "$repo_name" "sparse-paths")
         local full_path="${project_root}/${path}"
 
         echo "--- ${repo_name} ---"
         echo "  Path: ${path}"
         echo "  Mode: ${mode}"
+        if [[ "$read_only" == "true" ]]; then
+            echo "  Read-only: yes"
+        fi
+        if [[ -n "$sparse_paths" ]]; then
+            echo "  Sparse paths: ${sparse_paths//$'\n'/, }"
+        fi
 
         if [[ ! -d "$full_path/.git" ]]; then
             echo "  State: NOT CLONED"

@@ -64,9 +64,15 @@ snapshot_repo() {
     local project_root
     project_root=$(git rev-parse --show-toplevel 2>/dev/null) || return 1
 
-    local path
+    local path read_only
     path=$(config_get "$repo_name" "path")
+    read_only=$(config_get_with_default "$repo_name" "read-only" "false")
     local full_path="${project_root}/${path}"
+
+    if [[ "$read_only" == "true" ]]; then
+        echo "  SKIP: ${repo_name} - read-only"
+        return 0
+    fi
 
     if [[ ! -d "$full_path/.git" ]]; then
         echo "  SKIP: ${repo_name} - not cloned at ${path}"

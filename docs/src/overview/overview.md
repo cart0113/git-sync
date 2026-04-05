@@ -1,29 +1,25 @@
 # git-sync
 
-Compose independent git repositories into a pseudo-monorepo.
+Compose independent git repositories into a pseudo-monorepo; an alternative to git submodule.
+
+## Why not git submodule?
+
+I've used git submodule across many projects and hit too many edge cases. Detached HEAD confusion, forgotten submodule pushes that break the repo for everyone, the `init && update` ceremony that trips up every new contributor, merge conflicts on submodule pointers that aren't real text conflicts — the list goes on.
+
+Removing a submodule is a multi-step ritual (`git rm --cached`, edit `.gitmodules`, edit `.git/config`, delete `.git/modules/<name>`). Getting any step wrong leaves ghost state. CI pipelines need special handling. `git pull` doesn't update submodules unless you remember `--recurse-submodules`.
+
+The problems are [well](https://stackoverflow.com/questions/12075809/git-submodules-workflow-issues) [documented](https://www.atlassian.com/git/tutorials/git-submodule).
+
+I didn't need most of what submodule does. I just wanted to compose repos together and keep them in sync. So I wrote a tool that does exactly that — the core of what I wanted, in bash scripts I can read and fix when something goes wrong.
 
 ## What is git-sync?
 
-git-sync is a specific solution to a common workflow pattern: you have many small, independent git repositories and you want the convenience of versioning them together like a monorepo — without actually merging them into one.
+git-sync manages a collection of independent git repos declared in a single YAML config file (`.git-sync.yaml`). Each sub-repo stays a real, independent git clone with its own full history. git-sync handles the cloning, pinning, and syncing.
 
-Each sub-repo stays a real, independent git clone with its own full history. The parent project just declares what it needs in a single YAML config file (`.git-sync.yaml`). git-sync handles the cloning, pinning, and syncing.
+Two sync modes:
 
-This is not meant to be an exhaustive dependency management tool. It is a straightforward bash utility for a straightforward problem.
-
-## Why git-sync?
-
-- Many small repos need the convenience of versioning together like a monorepo
-- git-submodule works most of the time but has confusing edge-case errors
-- git-sync is simple, customizable, and transparent
-- Two sync modes: `checkout-commit` (pin to exact commit) and `update-branch` (track a branch)
-
-## How it differs from git-submodule
-
-- Sub-repos are real, independent git clones — not embedded pointers
-- Single YAML config declares everything in one place
-- Two sync modes: pin to exact commits or track a branch
-- Transparent bash scripts you can read and modify
-- No confusing edge-case errors
+- **update-branch** — track a branch, pull latest on sync
+- **checkout-commit** — pin to an exact commit or tag for reproducible builds
 
 ## Quick Start
 

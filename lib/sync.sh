@@ -17,7 +17,7 @@ sync_repo() {
     local project_root
     project_root=$(git rev-parse --show-toplevel 2>/dev/null) || return 1
 
-    local path git_repo mode current_branch current_commit create_on_missing ensure_ignore
+    local path git_repo mode current_branch current_commit create_on_missing ensure_ignore read_only
     path=$(config_get "$repo_name" "path")
     git_repo=$(config_get "$repo_name" "git-repo")
     mode=$(config_get "$repo_name" "mode")
@@ -25,6 +25,7 @@ sync_repo() {
     current_commit=$(config_get "$repo_name" "current-commit")
     create_on_missing=$(config_get_with_default "$repo_name" "create-on-missing" "true")
     ensure_ignore=$(config_get_with_default "$repo_name" "ensure-in-git-ignore" "true")
+    read_only=$(config_get_with_default "$repo_name" "read-only" "false")
 
     local full_path="${project_root}/${path}"
 
@@ -35,24 +36,50 @@ sync_repo() {
         ensure_in_gitignore "$path"
     fi
 
+    # Read sparse-paths config (YAML list -> newline-separated)
+    local sparse_paths
+    sparse_paths=$(config_get_list "$repo_name" "sparse-paths")
+
     # Clone if missing
     if [[ ! -d "$full_path/.git" ]]; then
         if [[ "$create_on_missing" != "true" ]]; then
             echo "  SKIP: ${full_path} does not exist and create-on-missing is false"
             return 0
         fi
-        echo "  Cloning ${git_repo} -> ${full_path}"
-        local clone_output
-        clone_output=$(git clone "$git_repo" "$full_path" 2>&1) || {
-            report_subrepo_error "$repo_name" "clone from ${git_repo}" "$clone_output"
-            return 1
-        }
+        if [[ -n "$sparse_paths" ]]; then
+            echo "  Cloning ${git_repo} -> ${full_path} (sparse)"
+            local clone_output
+            clone_output=$(git clone --filter=blob:none --sparse "$git_repo" "$full_path" 2>&1) || {
+                report_subrepo_error "$repo_name" "sparse clone from ${git_repo}" "$clone_output"
+                return 1
+            }
+            cd "$full_path" || return 1
+            local sparse_output
+            sparse_output=$(git sparse-checkout set $sparse_paths 2>&1) || {
+                report_subrepo_error "$repo_name" "sparse-checkout set" "$sparse_output"
+                cd "$project_root"
+                return 1
+            }
+            cd "$project_root"
+        else
+            echo "  Cloning ${git_repo} -> ${full_path}"
+            local clone_output
+            clone_output=$(git clone "$git_repo" "$full_path" 2>&1) || {
+                report_subrepo_error "$repo_name" "clone from ${git_repo}" "$clone_output"
+                return 1
+            }
+        fi
     fi
 
     cd "$full_path" || return 1
 
     # Check for uncommitted changes
     if ! git diff-index --quiet HEAD -- 2>/dev/null; then
+        if [[ "$read_only" == "true" ]]; then
+            report_subrepo_error "$repo_name" "read-only repo has uncommitted changes" ""
+            cd "$project_root"
+            return 1
+        fi
         echo "  WARNING: ${repo_name} has uncommitted changes"
     fi
 

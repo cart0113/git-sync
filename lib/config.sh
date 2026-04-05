@@ -46,6 +46,16 @@ config_set() {
     yq -i ".\"${repo_name}\".\"${field}\" = \"${value}\"" "$config"
 }
 
+config_get_list() {
+    local repo_name="$1"
+    local field="$2"
+    local config
+    config=$(config_file_path) || return 1
+    local value
+    value=$(yq ".\"${repo_name}\".\"${field}\" // [] | .[]" "$config" 2>/dev/null)
+    echo "$value"
+}
+
 config_get_with_default() {
     local repo_name="$1"
     local field="$2"
