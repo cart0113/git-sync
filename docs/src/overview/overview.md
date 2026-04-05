@@ -8,7 +8,11 @@ I've used git submodule across many projects and hit too many edge cases. Detach
 
 Removing a submodule is a multi-step ritual (`git rm --cached`, edit `.gitmodules`, edit `.git/config`, delete `.git/modules/<name>`). Getting any step wrong leaves ghost state. CI pipelines need special handling. `git pull` doesn't update submodules unless you remember `--recurse-submodules`.
 
-The problems are [well](https://stackoverflow.com/questions/12075809/git-submodules-workflow-issues) [documented](https://www.atlassian.com/git/tutorials/git-submodule).
+The problems are well documented:
+
+- [Ask HN: Why are Git submodules so bad?](https://news.ycombinator.com/item?id=31792303) (2022) — devs describe needing five separate commits across nested repos for one feature, clone not pulling submodules by default, and every git operation requiring parallel submodule bookkeeping
+- [Git Submodules are awful but occasionally necessary](https://www.feoh.org/posts/git-submodules-are-awful-but-occasionally-necessary.html) (2024) — calls submodules "a fractal of bad UX" that leave you "trapped in an unendingly frustrating purgatory of bad error messages, unclear working states"
+- [Reasons to avoid Git submodules](https://blog.timhutt.co.uk/against-submodules/) (2024) — git worktrees don't work reliably with submodules, switching branches leaves ghost files requiring manual cleanup, and submodule URLs hurt repo portability
 
 I didn't need most of what submodule does. I just wanted to compose repos together and keep them in sync. So I wrote a tool that does exactly that — the core of what I wanted, in bash scripts I can read and fix when something goes wrong.
 
