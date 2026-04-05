@@ -1,0 +1,318 @@
+/*
+ * Color themes for docsify — light and dark variants.
+ *
+ * Each theme overrides --t-* CSS variables. Apply by adding
+ * .theme-<name> to <html>. Dark variants activate with .dark-mode.
+ * The default Parchment light palette lives in code-one.css :root.
+ *
+ * Vivid code highlighter (.code-vivid) overrides --t-syn-* with
+ * high-saturation colors for any theme.
+ */
+
+/* ================================================================== */
+/* Parchment                                                           */
+/* ================================================================== */
+
+html.theme-parchment {
+  --t-heading: #5570a0;
+}
+
+html.theme-parchment.dark-mode {
+  --t-bg: #1e1d1b;
+  --t-bg-alt: #282724;
+  --t-text: #cdc8be;
+  --t-text-muted: #8e8a80;
+  --t-heading: #d4c8a8;
+  --t-accent: #90b8e0;
+  --t-accent-hover: #aeccea;
+  --t-link: #90b8e0;
+  --t-link-hover: #aeccea;
+  --t-border: #3e3c38;
+  --t-code-bg: #262523;
+  --t-code-text: #d4d0c8;
+  --t-code-border: #3a3835;
+  --t-code-gutter-bg: #2c2b28;
+  --t-code-gutter-text: #6e6b64;
+  --t-code-gutter-border: #3a3835;
+  --t-inline-code-bg: #302e2a;
+  --t-inline-code-text: #8ab4d6;
+  --t-sidebar-bg: #24231f;
+  --t-sidebar-text: #a8a49a;
+  --t-sidebar-active: #90b8e0;
+  --t-callout-bg: #28272a;
+  --t-callout-border: #5a6478;
+  --t-table-header-bg: #2c2b28;
+  --t-table-stripe: #222120;
+  --t-syn-comment: #7a8090;
+  --t-syn-punctuation: #9a9aaa;
+  --t-syn-property: #d4a05a;
+  --t-syn-string: #7ab870;
+  --t-syn-operator: #8a9ab0;
+  --t-syn-keyword: #6aadee;
+  --t-syn-function: #b68ad6;
+  --t-syn-regex: #e09050;
+}
+
+/* ================================================================== */
+/* Pylab — Eclipse IDE inspired: white canvas, boxed feel              */
+/* ================================================================== */
+
+html.theme-pylab {
+  --t-bg: #ffffff;
+  --t-bg-alt: #f8f8f8;
+  --t-text: #1a1a2a;
+  --t-text-muted: #505050;
+  --t-heading: #3366bb;
+  --t-accent: #2160bb;
+  --t-accent-hover: #17408a;
+  --t-link: #0000ff;
+  --t-link-hover: #0000cc;
+  --t-border: #b6bccc;
+  --t-code-bg: #f8f8f8;
+  --t-code-text: #000000;
+  --t-code-border: #c0c0c0;
+  --t-code-gutter-bg: #eaeaea;
+  --t-code-gutter-text: #787878;
+  --t-code-gutter-border: #c0c0c0;
+  --t-inline-code-bg: #e8e8e8;
+  --t-inline-code-text: #7f0055;
+  --t-sidebar-bg: #eaeaea;
+  --t-sidebar-text: #333333;
+  --t-sidebar-active: #2160bb;
+  --t-callout-bg: #e8f2fe;
+  --t-callout-border: #2160bb;
+  --t-table-header-bg: #eaeaea;
+  --t-table-stripe: #f8f8f8;
+  --t-syn-comment: #3f7f5f;
+  --t-syn-punctuation: #000000;
+  --t-syn-property: #2a00ff;
+  --t-syn-string: #2a00ff;
+  --t-syn-operator: #000000;
+  --t-syn-keyword: #7f0055;
+  --t-syn-function: #000000;
+  --t-syn-regex: #2a00ff;
+}
+
+html.theme-pylab.dark-mode {
+  --t-bg: #1e1f22;
+  --t-bg-alt: #2f2f2f;
+  --t-text: #cccccc;
+  --t-text-muted: #93a1a1;
+  --t-heading: #a0c8e8;
+  --t-accent: #6fc5ee;
+  --t-accent-hover: #8ad4f5;
+  --t-link: #6fc5ee;
+  --t-link-hover: #8ac9f2;
+  --t-border: #515658;
+  --t-code-bg: #292929;
+  --t-code-text: #d9e8f7;
+  --t-code-border: #515658;
+  --t-code-gutter-bg: #313538;
+  --t-code-gutter-text: #77919a;
+  --t-code-gutter-border: #515658;
+  --t-inline-code-bg: #34393d;
+  --t-inline-code-text: #6fc5ee;
+  --t-sidebar-bg: #292929;
+  --t-sidebar-text: #bbbbbb;
+  --t-sidebar-active: #6fc5ee;
+  --t-callout-bg: #34393d;
+  --t-callout-border: #2b79d7;
+  --t-table-header-bg: #313538;
+  --t-table-stripe: #252525;
+  --t-syn-comment: #808080;
+  --t-syn-punctuation: #e6e6fa;
+  --t-syn-property: #6897bb;
+  --t-syn-string: #17c6a3;
+  --t-syn-operator: #e6e6fa;
+  --t-syn-keyword: #cc6c1d;
+  --t-syn-function: #a7ec21;
+  --t-syn-regex: #6897bb;
+}
+
+/* ================================================================== */
+/* Blossom — soft pastels, lavender/lilac tones                        */
+/* ================================================================== */
+
+html.theme-blossom {
+  --t-bg: #f2edf8;
+  --t-bg-alt: #e8e0f0;
+  --t-text: #2e2438;
+  --t-text-muted: #6a5e78;
+  --t-heading: #7744aa;
+  --t-accent: #9668c4;
+  --t-accent-hover: #7a4ea8;
+  --t-link: #9668c4;
+  --t-link-hover: #7a4ea8;
+  --t-border: #cec2dc;
+  --t-code-bg: #ece6f4;
+  --t-code-text: #2e2438;
+  --t-code-border: #c4b8d2;
+  --t-code-gutter-bg: #e0d8ec;
+  --t-code-gutter-text: #8878a0;
+  --t-code-gutter-border: #c4b8d2;
+  --t-inline-code-bg: #e0d6ee;
+  --t-inline-code-text: #7a4ea8;
+  --t-sidebar-bg: #e8e0f0;
+  --t-sidebar-text: #4a3e58;
+  --t-sidebar-active: #9668c4;
+  --t-callout-bg: #efe8f8;
+  --t-callout-border: #b48ed4;
+  --t-table-header-bg: #e0d6ee;
+  --t-table-stripe: #f4f0fa;
+  --t-syn-comment: #8878a0;
+  --t-syn-punctuation: #4a3e58;
+  --t-syn-property: #c07830;
+  --t-syn-string: #4a8a48;
+  --t-syn-operator: #8a6898;
+  --t-syn-keyword: #5a6eb8;
+  --t-syn-function: #9a4888;
+  --t-syn-regex: #c05840;
+}
+
+html.theme-blossom.dark-mode {
+  --t-bg: #1c182a;
+  --t-bg-alt: #252036;
+  --t-text: #d0c8dc;
+  --t-text-muted: #8a80a0;
+  --t-heading: #c8a8e0;
+  --t-accent: #b890e0;
+  --t-accent-hover: #cca8f0;
+  --t-link: #b890e0;
+  --t-link-hover: #cca8f0;
+  --t-border: #3a3250;
+  --t-code-bg: #221e32;
+  --t-code-text: #d4cce0;
+  --t-code-border: #362e4a;
+  --t-code-gutter-bg: #282240;
+  --t-code-gutter-text: #6a6088;
+  --t-code-gutter-border: #362e4a;
+  --t-inline-code-bg: #2e2844;
+  --t-inline-code-text: #b890e0;
+  --t-sidebar-bg: #201c30;
+  --t-sidebar-text: #a8a0bc;
+  --t-sidebar-active: #b890e0;
+  --t-callout-bg: #282240;
+  --t-callout-border: #6a5888;
+  --t-table-header-bg: #282240;
+  --t-table-stripe: #1e1a28;
+  --t-syn-comment: #6a6088;
+  --t-syn-punctuation: #9a90b0;
+  --t-syn-property: #e0a860;
+  --t-syn-string: #80c078;
+  --t-syn-operator: #b098c8;
+  --t-syn-keyword: #80a8e0;
+  --t-syn-function: #d088c0;
+  --t-syn-regex: #e08868;
+}
+
+/* ================================================================== */
+/* Near-Midnight — softer dark default, steel-blue gray                */
+/* ================================================================== */
+
+html.theme-near-midnight {
+  --t-bg: #f8f8fc;
+  --t-bg-alt: #ebebf4;
+  --t-text: #282c34;
+  --t-text-muted: #636d83;
+  --t-heading: #6060aa;
+  --t-accent: #6c71c4;
+  --t-accent-hover: #565ba6;
+  --t-link: #6c71c4;
+  --t-link-hover: #565ba6;
+  --t-border: #c8c8d8;
+  --t-code-bg: #ededf5;
+  --t-code-text: #282c34;
+  --t-code-border: #c0c0d4;
+  --t-code-gutter-bg: #e0e0ee;
+  --t-code-gutter-text: #8888a0;
+  --t-code-gutter-border: #c0c0d4;
+  --t-inline-code-bg: #e4e4f0;
+  --t-inline-code-text: #565ba6;
+  --t-sidebar-bg: #ebebf4;
+  --t-sidebar-text: #3e4250;
+  --t-sidebar-active: #6c71c4;
+  --t-callout-bg: #eeeef8;
+  --t-callout-border: #8a8ec8;
+  --t-table-header-bg: #e0e0ee;
+  --t-table-stripe: #f2f2fa;
+  --t-syn-comment: #8888a0;
+  --t-syn-punctuation: #4a4e60;
+  --t-syn-property: #d19a66;
+  --t-syn-string: #5c9e5c;
+  --t-syn-operator: #56b6c2;
+  --t-syn-keyword: #6c71c4;
+  --t-syn-function: #c678dd;
+  --t-syn-regex: #e06c75;
+}
+
+html.theme-near-midnight.dark-mode {
+  --t-bg: #353b48;
+  --t-bg-alt: #2d323e;
+  --t-text: #c4c8d4;
+  --t-text-muted: #7c84a0;
+  --t-heading: #a8b8d8;
+  --t-accent: #7cb4f0;
+  --t-accent-hover: #9cc8ff;
+  --t-link: #7cb4f0;
+  --t-link-hover: #9cc8ff;
+  --t-border: #4e5568;
+  --t-code-bg: #3c4252;
+  --t-code-text: #c4c8d4;
+  --t-code-border: #4a5060;
+  --t-code-gutter-bg: #383e4c;
+  --t-code-gutter-text: #6a7088;
+  --t-code-gutter-border: #4a5060;
+  --t-inline-code-bg: #434a5c;
+  --t-inline-code-text: #7cb4f0;
+  --t-sidebar-bg: #2d323e;
+  --t-sidebar-text: #9aa0b4;
+  --t-sidebar-active: #7cb4f0;
+  --t-callout-bg: #3a4050;
+  --t-callout-border: #5a6a88;
+  --t-table-header-bg: #3c4252;
+  --t-table-stripe: #323842;
+  --t-syn-comment: #6a7088;
+  --t-syn-punctuation: #9aa0b8;
+  --t-syn-property: #e0aa66;
+  --t-syn-string: #a0d890;
+  --t-syn-operator: #70c8d8;
+  --t-syn-keyword: #d090e8;
+  --t-syn-function: #7cb4f0;
+  --t-syn-regex: #f08888;
+}
+
+/* ================================================================== */
+/* Vivid code highlighter — high-saturation syntax colors              */
+/* Overrides --t-syn-* for any theme when .code-vivid is on <html>.   */
+/* ================================================================== */
+
+html.code-vivid {
+  --t-syn-comment: #6a737d;
+  --t-syn-punctuation: #1a1a2e;
+  --t-syn-property: #e85d00;
+  --t-syn-string: #008a0e;
+  --t-syn-operator: #c020e0;
+  --t-syn-keyword: #0024d4;
+  --t-syn-function: #a000c0;
+  --t-syn-regex: #dd1100;
+}
+
+html.code-vivid.dark-mode {
+  --t-syn-comment: #6e7a88;
+  --t-syn-punctuation: #c0ccda;
+  --t-syn-property: #ffc240;
+  --t-syn-string: #44ff88;
+  --t-syn-operator: #ff55cc;
+  --t-syn-keyword: #44ccff;
+  --t-syn-function: #cc88ff;
+  --t-syn-regex: #ff4444;
+}
+
+/* Vivid tokens get a slight weight boost for emphasis */
+html.code-vivid
+  .markdown-section
+  pre
+  code
+  .token:not(.comment):not(.punctuation) {
+  font-weight: 500;
+}

@@ -28,7 +28,7 @@ lib/sync.sh           # clone, pull, checkout operations
 lib/hooks.sh          # git hook installation/management
 lib/gitignore.sh      # .gitignore management
 context-db/           # project knowledge database
-docs/                 # GitHub Pages documentation (Jekyll)
+docs/                 # GitHub Pages documentation (bruha/docsify)
 examples/             # example .git-sync.yaml files
 ```
 
@@ -52,9 +52,11 @@ bin/git-sync snapshot   # update .git-sync.yaml with current commits
 bin/git-sync init       # install git hooks
 ```
 
-## context-db
+## context-db — IMPORTANT: Read AND Write
 
 Read `context-db/context-db-instructions.md` for the project knowledge database.
+
+**You are expected to update the context-db when you learn something important.** When you discover architecture decisions, non-obvious patterns, constraints, gotchas, data model relationships, or anything a future agent would need to work safely on this codebase — add it to the context-db. If you had to figure it out the hard way, it belongs there. Update descriptions in frontmatter to stay accurate. Flag or remove stale content that contradicts the current code.
 
 ## Git Commits
 

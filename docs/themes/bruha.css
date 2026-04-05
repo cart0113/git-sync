@@ -1,0 +1,511 @@
+/*
+ * bruha.css — styles for the bruha extension system.
+ *
+ * Config-driven toggles, sidebar bar indicator, collapsible folders,
+ * page section collapse, and top navigation bar. Loaded after code-one.css.
+ */
+
+/* ------------------------------------------------------------------ */
+/* Config toggles — hamburger menu and GitHub corner                   */
+/* ------------------------------------------------------------------ */
+
+html.ext-no-hamburger .sidebar-toggle {
+  display: none !important;
+}
+
+html.ext-no-github-corner .github-corner {
+  display: none !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Kill vue.css dash markers on sub-sidebar items                      */
+/* vue.css: .app-sub-sidebar li:before { content: "-" }               */
+/* ------------------------------------------------------------------ */
+
+.app-sub-sidebar li::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Sidebar heading hierarchy (managed by sidebar-indicator.js)          */
+/* Gated by html.ext-inline-sidebar (document_inline_sidebar_selector) */
+/*                                                                     */
+/* Page title (H1) = collapsible like a folder (sb-has-sections)       */
+/* H2 in sub-sidebar = bar indicator (sb-bar-level)                    */
+/* H3+ in sub-sidebar = text highlight only (sb-text-level)            */
+/* ------------------------------------------------------------------ */
+
+/* --- Page title as collapsible folder header --- */
+html.ext-inline-sidebar .sidebar-nav li.sb-has-sections > a {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Chevron on all page links (right-pointing ">", collapsed look) */
+html.ext-folder-chevron.ext-inline-sidebar .sidebar-nav li.sb-page-link > a {
+  position: relative;
+}
+
+html.ext-folder-chevron.ext-inline-sidebar
+  .sidebar-nav
+  li.sb-page-link
+  > a::before {
+  content: '';
+  display: inline-block;
+  width: 0.4em;
+  height: 0.4em;
+  border-right: 1.5px solid var(--t-sidebar-text);
+  border-bottom: 1.5px solid var(--t-sidebar-text);
+  transform: rotate(-45deg);
+  transition: transform 0.15s ease;
+  position: absolute;
+  left: 0.8em;
+  top: 50%;
+  margin-top: -0.25em;
+}
+
+/* Active page with sections: chevron points down (expanded) */
+html.ext-folder-chevron.ext-inline-sidebar
+  .sidebar-nav
+  li.sb-has-sections
+  > a::before {
+  transform: rotate(45deg);
+}
+
+/* Active page collapsed: chevron points right again */
+html.ext-folder-chevron.ext-inline-sidebar
+  .sidebar-nav
+  li.sb-has-sections.sb-page-collapsed
+  > a::before {
+  transform: rotate(-45deg);
+}
+
+/* --- Shift chevron + bar for pages under nested folders (ul ul ul = level 3+) --- */
+html.ext-folder-chevron.ext-inline-sidebar
+  .sidebar-nav
+  ul
+  ul
+  ul
+  li.sb-page-link
+  > a::before {
+  left: calc(1.8em + 8px);
+}
+
+/* --- Continuous bar along entire page section list --- */
+html.ext-inline-sidebar .sidebar-nav li.sb-active-page > ul {
+  border-left: 4px solid color-mix(in srgb, var(--t-accent) 20%, transparent);
+  margin-left: calc(1em - 4.2px) !important;
+}
+
+html.ext-inline-sidebar .sidebar-nav ul ul ul li.sb-active-page > ul {
+  margin-left: calc(2em + 3.8px) !important;
+}
+
+/* --- Bar-level headings (H2) — highlight segment on hover/current --- */
+html.ext-inline-sidebar .sidebar-nav li.sb-bar-level > a {
+  border-left: 4px solid transparent !important;
+  margin-left: -4px !important;
+  padding-left: 1em !important;
+}
+
+html.ext-inline-sidebar .sidebar-nav li.sb-bar-level > a:hover {
+  border-left-color: color-mix(
+    in srgb,
+    var(--t-accent) 35%,
+    transparent
+  ) !important;
+}
+
+html.ext-inline-sidebar .sidebar-nav li.sb-bar-level.sb-current > a {
+  border-left-color: var(--t-accent) !important;
+  color: var(--t-accent) !important;
+  font-weight: 600;
+}
+
+/* --- Text-level headings (H3+) — bar highlight like H2, tight spacing --- */
+html.ext-inline-sidebar .sidebar-nav li.sb-text-level > a {
+  border-left: 4px solid transparent !important;
+  margin-left: -4px !important;
+  padding-left: calc(1.4em + 8px) !important;
+  padding-top: 0.12em !important;
+  padding-bottom: 0.12em !important;
+}
+
+html.ext-inline-sidebar .sidebar-nav li.sb-text-level > a:hover {
+  border-left-color: color-mix(
+    in srgb,
+    var(--t-accent) 35%,
+    transparent
+  ) !important;
+  color: var(--t-accent) !important;
+}
+
+html.ext-inline-sidebar .sidebar-nav li.sb-text-level.sb-current > a {
+  border-left-color: var(--t-accent) !important;
+  color: var(--t-accent) !important;
+  font-weight: 600;
+}
+
+/* --- Sub-sidebar indentation --- */
+html.ext-inline-sidebar .sidebar-nav li.sb-active-page > ul {
+  padding-left: 0 !important;
+}
+
+html.ext-inline-sidebar .sidebar-nav li.sb-active-page ul li > a {
+  font-size: 14px;
+}
+
+html.ext-inline-sidebar .sidebar-nav li.sb-active-page > ul ul {
+  padding-left: 0 !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Page section collapse (sb-page-collapsed toggled by JS)             */
+/* ------------------------------------------------------------------ */
+
+.sidebar-nav li.sb-page-collapsed > ul {
+  display: none !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Collapsible folders                                                 */
+/* ------------------------------------------------------------------ */
+
+.sidebar-nav li.ext-folder > p,
+.sidebar-nav li.ext-folder > strong {
+  cursor: pointer;
+  user-select: none;
+  display: block;
+}
+
+.sidebar-nav li.ext-folder.ext-folder-collapsed > ul {
+  display: none;
+}
+
+/* Folder chevron — conditional on html.ext-folder-chevron */
+
+html.ext-folder-chevron .sidebar-nav li.ext-folder > p,
+html.ext-folder-chevron .sidebar-nav li.ext-folder > strong {
+  position: relative;
+  padding-left: 2em;
+}
+
+html.ext-folder-chevron .sidebar-nav li.ext-folder > p::before,
+html.ext-folder-chevron .sidebar-nav li.ext-folder > strong::before {
+  content: '';
+  display: inline-block;
+  width: 0.4em;
+  height: 0.4em;
+  border-right: 1.5px solid var(--t-sidebar-text);
+  border-bottom: 1.5px solid var(--t-sidebar-text);
+  transform: rotate(45deg);
+  transition: transform 0.15s ease;
+  position: absolute;
+  left: 0.8em;
+  top: 50%;
+  margin-top: -0.25em;
+}
+
+html.ext-folder-chevron
+  .sidebar-nav
+  li.ext-folder.ext-folder-collapsed
+  > p::before,
+html.ext-folder-chevron
+  .sidebar-nav
+  li.ext-folder.ext-folder-collapsed
+  > strong::before {
+  transform: rotate(-45deg);
+}
+
+/* ------------------------------------------------------------------ */
+/* Top navigation bar                                                  */
+/* ------------------------------------------------------------------ */
+
+.ext-top-nav {
+  position: fixed;
+  top: 3px;
+  left: 0;
+  right: 0;
+  height: 58px;
+  background: var(--t-sidebar-bg);
+  border-bottom: 1px solid var(--t-border);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  display: grid;
+  grid-template-columns: 320px 1fr auto auto auto;
+  align-items: center;
+  z-index: 50;
+}
+
+/* --- Brand (icon + title) — matches sidebar width --- */
+.ext-top-brand {
+  display: flex;
+  align-items: center;
+  gap: 1.3rem;
+  width: 320px;
+  box-sizing: border-box;
+  text-decoration: none !important;
+  padding: 0 1.5rem;
+  border-right: 1px solid var(--t-border);
+  height: 100%;
+}
+
+.ext-top-brand-icon {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+}
+
+.ext-top-brand-title {
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  font-weight: 700;
+  font-size: 1.75em;
+  color: var(--t-heading) !important;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+/* --- Nav tabs --- */
+.ext-top-tabs {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 0;
+  padding-left: 0.5rem;
+}
+
+.ext-top-tabs button {
+  background: none;
+  border: none;
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--t-sidebar-text) 65%, transparent);
+  padding: 0 1.1em;
+  height: 100%;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
+}
+
+.ext-top-tabs button:hover {
+  color: var(--t-accent);
+}
+
+.ext-top-tabs button.ext-top-active {
+  color: var(--t-accent);
+  border-bottom-color: var(--t-accent);
+  font-weight: 600;
+}
+
+/* --- Social icons --- */
+.ext-top-social {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0 0.8rem;
+}
+
+.ext-top-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  color: var(--t-sidebar-text) !important;
+  text-decoration: none !important;
+  transition:
+    color 0.15s,
+    background 0.15s;
+}
+
+.ext-top-social-link:hover {
+  color: var(--t-accent) !important;
+  background: color-mix(in srgb, var(--t-accent) 10%, transparent);
+}
+
+.ext-top-social-link svg {
+  fill: currentColor;
+  color: inherit;
+}
+
+/* --- Search (top bar) --- */
+.ext-top-search {
+  display: flex;
+  align-items: center;
+  padding: 0 1rem 0 0.5rem;
+  border-left: 1px solid var(--t-border);
+  height: 100%;
+}
+
+.ext-top-search-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  border: none;
+  background: none;
+  color: var(--t-sidebar-text);
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    background 0.15s;
+}
+
+.ext-top-search-btn:hover {
+  color: var(--t-accent);
+  background: color-mix(in srgb, var(--t-accent) 10%, transparent);
+}
+
+.ext-top-search-btn svg {
+  stroke: currentColor;
+  fill: none;
+}
+
+/* Always-visible box style */
+.ext-top-search-input {
+  width: 180px;
+  padding: 0.4em 0.8em;
+  border: 1px solid var(--t-border);
+  border-radius: 6px;
+  background: var(--t-bg);
+  color: var(--t-text);
+  font-size: 13px;
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+}
+
+.ext-top-search-input:focus {
+  outline: none;
+  border-color: var(--t-accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--t-accent) 15%, transparent);
+}
+
+/* --- Search overlay (magnify-glass mode) --- */
+.ext-search-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 200;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 12vh;
+}
+
+.ext-search-overlay.ext-search-open {
+  display: flex;
+}
+
+.ext-search-overlay-inner {
+  width: 560px;
+  max-width: 90vw;
+  max-height: 70vh;
+  background: var(--t-bg);
+  border: 1px solid var(--t-border);
+  border-radius: 12px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ext-search-overlay-input {
+  width: 100%;
+  padding: 1em 1.4em;
+  border: none;
+  border-bottom: 1px solid var(--t-border);
+  background: transparent;
+  color: var(--t-text);
+  font-size: 16px;
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.ext-search-overlay-results {
+  overflow-y: auto;
+  max-height: 55vh;
+  padding: 0.5em 0;
+}
+
+.ext-search-overlay-results .matching-post {
+  display: block;
+  padding: 0.8em 1.4em;
+  color: var(--t-text);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--t-border) 50%, transparent);
+  transition: background 0.1s;
+}
+
+.ext-search-overlay-results .matching-post:hover {
+  background: var(--t-bg-alt);
+}
+
+.ext-search-overlay-results .matching-post h2 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--t-heading);
+  margin: 0 0 0.3em;
+}
+
+.ext-search-overlay-results .matching-post p {
+  font-size: 13px;
+  color: var(--t-text-muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* --- Top-level folder hiding (top nav controls visibility) --- */
+.sidebar-nav li.ext-top-hidden {
+  display: none !important;
+}
+
+/* --- Layout shifts when top nav is present --- */
+
+/* Hide sidebar title + search — they live in top bar now */
+html.ext-has-top-nav .sidebar .app-name {
+  display: none !important;
+}
+
+html.ext-has-top-nav .sidebar .search {
+  display: none !important;
+}
+
+html.ext-has-top-nav .sidebar {
+  padding-top: 61px !important;
+}
+
+html.ext-has-top-nav section.content {
+  padding-top: 68px !important;
+}
+
+/* Add scroll room so the last heading on any page can scroll to the top */
+html.ext-has-top-nav .markdown-section {
+  padding-bottom: calc(100vh - 75px);
+}
+
+html.ext-has-top-nav body::before {
+  z-index: 60;
+}

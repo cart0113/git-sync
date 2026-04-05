@@ -1,0 +1,535 @@
+/*
+ * mobile-nav.css — mobile-only responsive layout.
+ *
+ * Hamburger button, slide-out drawer, and media queries that swap
+ * the desktop top nav / sidebar for the mobile drawer.
+ * Active when top_level_folders_as_top_control is true.
+ *
+ * Breakpoint: 768px  (matches docsify's built-in mobile cut-off)
+ *
+ * When adding new features:
+ *   1. Build the desktop version in bruha.css / its own CSS
+ *   2. Add the mobile representation here
+ *   3. Use the @media block at the bottom to show/hide
+ */
+
+/* ------------------------------------------------------------------ */
+/* Mobile header bar (hidden on desktop, shown on mobile)              */
+/* Contains: hamburger button + brand icon/title                       */
+/* ------------------------------------------------------------------ */
+
+.mobile-header {
+  display: none;
+  position: fixed;
+  top: 3px;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background: var(--t-sidebar-bg);
+  border-bottom: 1px solid var(--t-border);
+  z-index: 105;
+  align-items: center;
+  gap: 4px;
+  padding: 0 12px;
+}
+
+.mobile-hamburger {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--t-sidebar-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+
+.mobile-hamburger:hover {
+  color: var(--t-accent);
+}
+
+.mobile-hamburger svg {
+  stroke: currentColor;
+  fill: none;
+}
+
+.mobile-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none !important;
+}
+
+.mobile-header-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.mobile-header-title {
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  font-weight: 700;
+  font-size: 1.25em;
+  color: var(--t-heading) !important;
+  letter-spacing: -0.02em;
+}
+
+/* ------------------------------------------------------------------ */
+/* Backdrop                                                            */
+/* ------------------------------------------------------------------ */
+
+.mobile-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 199;
+}
+
+.mobile-backdrop.mobile-open {
+  display: block;
+}
+
+/* ------------------------------------------------------------------ */
+/* Drawer — slides in from the left                                    */
+/* ------------------------------------------------------------------ */
+
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 300px;
+  max-width: 85vw;
+  background: var(--t-sidebar-bg);
+  z-index: 200;
+  display: none;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+  overflow: hidden;
+}
+
+.mobile-drawer.mobile-open {
+  transform: translateX(0);
+}
+
+/* --- Header: brand + close --- */
+.mobile-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--t-border);
+  flex-shrink: 0;
+}
+
+.mobile-drawer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none !important;
+}
+
+.mobile-drawer-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.mobile-drawer-title {
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  font-weight: 700;
+  font-size: 1.4em;
+  color: var(--t-heading) !important;
+  letter-spacing: -0.02em;
+}
+
+.mobile-drawer-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: var(--t-text-muted);
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.mobile-drawer-close:hover {
+  color: var(--t-text);
+}
+
+/* --- Search --- */
+.mobile-drawer-search {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--t-border);
+  flex-shrink: 0;
+}
+
+.mobile-drawer-search-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--t-border);
+  border-radius: 8px;
+  background: var(--t-bg);
+  color: var(--t-text);
+  font-size: 14px;
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  box-sizing: border-box;
+}
+
+.mobile-drawer-search-input:focus {
+  outline: none;
+  border-color: var(--t-accent);
+}
+
+.mobile-drawer-search-results {
+  max-height: 40vh;
+  overflow-y: auto;
+}
+
+.mobile-drawer-search-results .matching-post {
+  display: block;
+  padding: 8px 0;
+  color: var(--t-text);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--t-border) 50%, transparent);
+}
+
+.mobile-drawer-search-results .matching-post h2 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--t-heading);
+  margin: 0 0 2px;
+}
+
+.mobile-drawer-search-results .matching-post p {
+  font-size: 12px;
+  color: var(--t-text-muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* --- Scrollable middle area (tabs + sidebar tree) --- */
+.mobile-drawer-scroll {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+/* --- Folder tabs (horizontal pills) --- */
+.mobile-drawer-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--t-border);
+}
+
+.mobile-tab {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--t-border);
+  background: transparent;
+  color: var(--t-sidebar-text);
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.mobile-tab:hover {
+  color: var(--t-accent);
+  border-color: var(--t-accent);
+}
+
+.mobile-tab.mobile-tab-active {
+  background: var(--t-accent);
+  color: #fff;
+  border-color: var(--t-accent);
+}
+
+/* --- Sidebar tree (cloned from docsify sidebar) --- */
+.mobile-drawer-nav {
+  padding: 8px 0;
+}
+
+.mobile-drawer-nav ul {
+  list-style: none;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.mobile-drawer-nav li > a {
+  display: block;
+  padding: 8px 16px 8px 20px;
+  color: var(--t-sidebar-text) !important;
+  text-decoration: none !important;
+  font-size: 14px;
+  font-weight: 500;
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  transition: color 0.15s;
+}
+
+.mobile-drawer-nav li > a:hover,
+.mobile-drawer-nav li > a.active {
+  color: var(--t-accent) !important;
+}
+
+.mobile-drawer-nav ul ul li > a {
+  padding-left: 36px;
+  font-size: 13px;
+}
+
+.mobile-drawer-nav ul ul ul li > a {
+  padding-left: 52px;
+  font-size: 13px;
+}
+
+.mobile-drawer-nav li > p,
+.mobile-drawer-nav li > strong {
+  display: block;
+  padding: 8px 16px 8px 20px;
+  color: var(--t-sidebar-text);
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.mobile-drawer-nav li.ext-folder-collapsed > ul {
+  display: none;
+}
+
+/* Hide sub-sidebar markers (same as bruha.css) */
+.mobile-drawer-nav .app-sub-sidebar li::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Footer: theme controls + social                                     */
+/* ------------------------------------------------------------------ */
+
+.mobile-drawer-footer {
+  flex-shrink: 0;
+  border-top: 1px solid var(--t-border);
+  padding: 12px 16px;
+}
+
+.mobile-drawer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+}
+
+.mobile-drawer-row > span {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--t-text);
+}
+
+/* Toggle switch (replicates .tc-toggle from theme-controls) */
+.mobile-toggle {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  cursor: pointer;
+}
+
+.mobile-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.mobile-toggle-track {
+  position: absolute;
+  inset: 0;
+  background: var(--t-border);
+  border-radius: 11px;
+  transition: background 0.2s;
+}
+
+.mobile-toggle input:checked + .mobile-toggle-track {
+  background: var(--t-accent);
+}
+
+.mobile-toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.mobile-toggle input:checked + .mobile-toggle-track::after {
+  transform: translateX(18px);
+}
+
+/* Theme swatches */
+.mobile-drawer-swatches-row {
+  flex-wrap: wrap;
+}
+
+.mobile-swatch-group {
+  display: flex;
+  gap: 8px;
+}
+
+.mobile-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+.mobile-swatch:hover {
+  transform: scale(1.1);
+}
+
+.mobile-swatch.mobile-swatch-active {
+  border-color: var(--t-accent);
+  box-shadow: 0 0 0 1px var(--t-accent);
+}
+
+/* Social links */
+.mobile-drawer-social {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 8px;
+  border-top: 1px solid var(--t-border);
+  margin-top: 8px;
+}
+
+.mobile-drawer-social-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  color: var(--t-sidebar-text) !important;
+  text-decoration: none !important;
+  font-size: 13px;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+
+.mobile-drawer-social-link:hover {
+  color: var(--t-accent) !important;
+}
+
+.mobile-drawer-social-link svg {
+  fill: currentColor;
+}
+
+/* ------------------------------------------------------------------ */
+/* Media query — swap desktop ↔ mobile                                 */
+/*                                                                     */
+/* When adding new features:                                           */
+/*   - Desktop element? Add hiding rule here under max-width: 768px   */
+/*   - Mobile element?  Set display:none in base styles above,        */
+/*     then show it here                                               */
+/* ------------------------------------------------------------------ */
+
+@media (max-width: 768px) {
+  /* Show mobile elements */
+  .mobile-header {
+    display: flex;
+  }
+
+  .mobile-drawer {
+    display: flex;
+  }
+
+  /* Hide desktop top nav bar */
+  .ext-top-nav {
+    display: none !important;
+  }
+
+  /* Hide desktop theme controls (floating button) */
+  .tc-wrap {
+    display: none !important;
+  }
+
+  /* Hide docsify sidebar — drawer replaces it */
+  html.ext-has-top-nav .sidebar {
+    display: none !important;
+  }
+
+  .sidebar-toggle {
+    display: none !important;
+  }
+
+  /* Reset content position (no sidebar offset) */
+  section.content {
+    left: 0 !important;
+  }
+
+  /* Clear the mobile header bar (3px stripe + 48px bar + 1px border) */
+  html.ext-has-top-nav section.content {
+    padding-top: 60px !important;
+  }
+
+  /* Force theme colours on content area — vue.css mobile resets override
+     the desktop rules from code-one.css, so we re-apply here */
+  body,
+  #app,
+  section.content,
+  .markdown-section {
+    background: var(--t-bg) !important;
+    color: var(--t-text) !important;
+  }
+
+  .markdown-section h1,
+  .markdown-section h2,
+  .markdown-section h3 {
+    color: var(--t-heading) !important;
+  }
+
+  .markdown-section a {
+    color: var(--t-link) !important;
+  }
+
+  /* Comfortable mobile content margins */
+  .markdown-section {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    max-width: 100% !important;
+  }
+}

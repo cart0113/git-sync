@@ -1,8 +1,3 @@
----
-layout: default
-title: Usage Guide
----
-
 # Usage Guide
 
 ## Typical Workflow
@@ -67,6 +62,7 @@ git-sync init
 ```
 
 This adds:
+
 - A **pre-commit** hook that runs `git-sync snapshot`
 - A **post-merge** hook that runs `git-sync sync`
 

@@ -1,8 +1,3 @@
----
-layout: default
-title: Configuration
----
-
 # Configuration Reference
 
 git-sync is configured via a `.git-sync.yaml` file at the root of your project.
@@ -20,8 +15,8 @@ Each top-level key is a logical name for a dependency. The name is used in statu
   current-commit: <sha or tag>
   create-on-missing: <true|false>
   ensure-in-git-ignore: <true|false>
-  commit-tracked-files-on-parent-commit: <true|false>  # experimental
-  push-after-auto-commit: <true|false>                 # experimental
+  commit-tracked-files-on-parent-commit: <true|false> # experimental
+  push-after-auto-commit: <true|false> # experimental
 ```
 
 ## Fields

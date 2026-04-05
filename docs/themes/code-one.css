@@ -1,0 +1,631 @@
+/*
+ * code-one — docsify theme.
+ *
+ * Wide sidebar with left-border active indicators, generous padding,
+ * larger fonts, minimal table borders. Layers on docsify's vue.css base.
+ */
+
+/* ------------------------------------------------------------------ */
+/* Variables (Parchment defaults — overridden by color-themes.css)     */
+/* ------------------------------------------------------------------ */
+
+:root {
+  --t-bg: #f7f6f3;
+  --t-bg-alt: #edeae3;
+  --t-text: #2a2e38;
+  --t-text-muted: #556070;
+  --t-heading: #1a1e28;
+  --t-accent: #4a6591;
+  --t-accent-hover: #374f73;
+  --t-link: #4a6591;
+  --t-link-hover: #374f73;
+  --t-border: #c8c2b8;
+  --t-code-bg: #e9eaed;
+  --t-code-text: #1e2230;
+  --t-code-border: #cccdd2;
+  --t-code-gutter-bg: #dddee2;
+  --t-code-gutter-text: #6b7080;
+  --t-code-gutter-border: #c8c9ce;
+  --t-inline-code-bg: #e5e2da;
+  --t-inline-code-text: #3d5680;
+  --t-sidebar-bg: #edeae3;
+  --t-sidebar-text: #3d4f63;
+  --t-sidebar-active: #4a6591;
+  --t-callout-bg: #edeae3;
+  --t-callout-border: #8892a5;
+  --t-table-header-bg: #e5e2da;
+  --t-sidebar-indent: 1em;
+  --t-table-stripe: #f2f0ec;
+  --t-syn-comment: #6b7286;
+  --t-syn-punctuation: #404858;
+  --t-syn-property: #8b5c2a;
+  --t-syn-string: #3a6e2e;
+  --t-syn-operator: #5a6b82;
+  --t-syn-keyword: #1e5599;
+  --t-syn-function: #5e3d82;
+  --t-syn-regex: #a65200;
+}
+
+/* ------------------------------------------------------------------ */
+/* Body & base overrides                                               */
+/* ------------------------------------------------------------------ */
+
+body {
+  background: var(--t-bg) !important;
+  color: var(--t-text);
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Arial,
+    sans-serif;
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+/* Top accent stripe */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--t-accent);
+  z-index: 100;
+}
+
+/* ------------------------------------------------------------------ */
+/* Sidebar — wider, more generous spacing                              */
+/* ------------------------------------------------------------------ */
+
+.sidebar {
+  width: 320px !important;
+  background: var(--t-sidebar-bg) !important;
+  border-right: none !important;
+  color: var(--t-sidebar-text);
+  padding-top: 3px !important;
+}
+
+.sidebar .app-name-link {
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  font-weight: 700;
+  font-size: 1.45em;
+  color: var(--t-heading) !important;
+  letter-spacing: -0.02em;
+  display: block;
+  padding: 1.2rem 1.5rem 0.9rem !important;
+  border-bottom: 1px solid var(--t-border);
+  margin-bottom: 0.6rem;
+}
+
+.sidebar .app-name {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Remove all list markers and reset all inherited spacing */
+.sidebar-nav,
+.sidebar-nav ul,
+.sidebar-nav ul ul {
+  list-style: none !important;
+}
+
+.sidebar-nav {
+  padding: 0 0.75rem !important;
+}
+
+.sidebar-nav ul,
+.sidebar-nav ul ul {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  padding-right: 0 !important;
+  margin-right: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.sidebar-nav li,
+.sidebar-nav ul ul li {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  padding-right: 0 !important;
+  margin-right: 0 !important;
+}
+
+.sidebar-nav > ul > li {
+  margin-bottom: 0.15em;
+}
+
+/* Main page headers in sidebar — level 1 (top-level links) */
+.sidebar-nav li > a {
+  color: var(--t-sidebar-text) !important;
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  font-size: 1.15em;
+  font-weight: 600;
+  border: none !important;
+  padding: 0.5em 0.8em 0.5em var(--t-sidebar-indent, 1em);
+  margin: 0 !important;
+  line-height: 1.6;
+  display: block;
+  transition: color 0.15s ease;
+  position: relative;
+}
+
+/* Sub-item links: smaller text, indented by depth
+   --t-sidebar-indent (default 1em) is the increment per level */
+.sidebar-nav ul ul li > a {
+  font-weight: 500;
+  font-size: 14.5px;
+  padding: 0.3em 0.8em 0.3em calc(var(--t-sidebar-indent, 1em) * 2);
+}
+
+/* Bold folder labels in sidebar (non-link section headers) */
+.sidebar-nav ul ul li > p {
+  font-weight: 600;
+  font-size: 14.5px;
+  padding: 0.3em 0.8em 0.3em calc(var(--t-sidebar-indent, 1em) * 2);
+  margin: 0;
+  color: var(--t-sidebar-text);
+}
+
+.sidebar-nav ul ul ul li > a,
+.sidebar-nav ul ul ul li > p {
+  padding-left: calc(var(--t-sidebar-indent, 1em) * 3 + 8px);
+}
+
+.sidebar-nav ul ul ul ul li > a,
+.sidebar-nav ul ul ul ul li > p {
+  padding-left: calc(var(--t-sidebar-indent, 1em) * 4);
+}
+
+.sidebar-nav ul ul ul ul ul li > a,
+.sidebar-nav ul ul ul ul ul li > p {
+  padding-left: calc(var(--t-sidebar-indent, 1em) * 5);
+}
+
+.sidebar-nav ul ul ul ul ul ul li > a,
+.sidebar-nav ul ul ul ul ul ul li > p {
+  padding-left: calc(var(--t-sidebar-indent, 1em) * 6);
+}
+
+.sidebar-toggle {
+  background: var(--t-sidebar-bg) !important;
+}
+
+/* Adjust content offset for wider sidebar */
+@media screen and (min-width: 769px) {
+  section.content {
+    left: 320px !important;
+  }
+  .sidebar-toggle {
+    left: 320px !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Search — larger, more prominent                                     */
+/* ------------------------------------------------------------------ */
+
+.search {
+  padding: 0.5rem 0.75rem !important;
+}
+
+.search input {
+  background: var(--t-bg) !important;
+  color: var(--t-text) !important;
+  border: 1px solid var(--t-border) !important;
+  border-radius: 8px !important;
+  padding: 0.6em 1em !important;
+  font-size: 0.9em !important;
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif !important;
+}
+
+.search input:focus {
+  border-color: var(--t-accent) !important;
+  box-shadow: 0 0 0 3px rgba(74, 101, 145, 0.12) !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Main content                                                        */
+/* ------------------------------------------------------------------ */
+
+.content {
+  background: var(--t-bg) !important;
+}
+
+.markdown-section {
+  max-width: 52rem;
+  margin: 0 !important;
+  padding-left: 90px !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Typography — larger, more spacious                                  */
+/* ------------------------------------------------------------------ */
+
+.markdown-section h1 {
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  font-size: 2.4em;
+  font-weight: 700;
+  color: var(--t-heading) !important;
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0.8em;
+  margin-top: 0.5em;
+  letter-spacing: -0.03em;
+}
+
+.markdown-section h2 {
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  font-size: 1.6em;
+  font-weight: 700;
+  color: var(--t-heading) !important;
+  border-bottom: 1px solid var(--t-border);
+  padding-bottom: 0.3em;
+  margin-top: 2em;
+  margin-bottom: 0.8em;
+  letter-spacing: -0.01em;
+}
+
+.markdown-section h3 {
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  font-size: 1.2em;
+  font-weight: 600;
+  color: var(--t-heading) !important;
+  margin-top: 1.6em;
+}
+
+.markdown-section p {
+  color: var(--t-text);
+  margin-bottom: 1.2em;
+}
+
+.markdown-section a {
+  color: var(--t-link);
+  text-decoration: underline;
+  text-decoration-color: rgba(74, 101, 145, 0.3);
+  text-underline-offset: 2px;
+  font-weight: 500;
+  transition: text-decoration-color 0.15s;
+}
+
+.markdown-section a:hover {
+  color: var(--t-link-hover);
+  text-decoration-color: var(--t-link-hover);
+}
+
+/* Heading anchor links should not show underlines */
+/* vue.css sets color on .anchor span — force inherit through the chain */
+.markdown-section h1 a,
+.markdown-section h2 a,
+.markdown-section h3 a,
+.markdown-section h1 a span,
+.markdown-section h2 a span,
+.markdown-section h3 a span {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.markdown-section strong {
+  color: var(--t-heading);
+}
+
+.markdown-section hr {
+  border-top: 1px solid var(--t-border);
+  margin: 2.5em 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Lists — more spacing                                                */
+/* ------------------------------------------------------------------ */
+
+.markdown-section ul,
+.markdown-section ol {
+  padding-left: 1.6em;
+}
+
+.markdown-section li {
+  margin-bottom: 0.4em;
+}
+
+/* ------------------------------------------------------------------ */
+/* Code — inline                                                       */
+/* ------------------------------------------------------------------ */
+
+.markdown-section code {
+  font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
+  font-size: 0.82em;
+  background: var(--t-inline-code-bg);
+  color: var(--t-inline-code-text);
+  padding: 0.15em 0.45em;
+  border-radius: 4px;
+  border: 1px solid var(--t-border);
+}
+
+/* ------------------------------------------------------------------ */
+/* Code — blocks with rounded border and left accent                   */
+/* ------------------------------------------------------------------ */
+
+.markdown-section pre {
+  position: relative;
+  background: var(--t-code-bg) !important;
+  border: 1px solid var(--t-code-border) !important;
+  border-left: 4px solid var(--t-accent) !important;
+  border-radius: 8px;
+  margin: 1.6em 0;
+  padding: 0 !important;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.markdown-section pre::before {
+  display: none !important;
+}
+
+.markdown-section pre::after {
+  display: none !important;
+}
+
+.markdown-section pre > code {
+  display: block;
+  color: var(--t-code-text) !important;
+  border: none !important;
+  padding: 1.1em 1.4em 1.1em 0 !important;
+  font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
+  font-size: 0.8em;
+  line-height: 1.6;
+  overflow-x: auto;
+  background: linear-gradient(
+    to right,
+    var(--t-code-gutter-bg) 2.8em,
+    var(--t-code-gutter-border) 2.8em,
+    var(--t-code-gutter-border) calc(2.8em + 1px),
+    var(--t-code-bg) calc(2.8em + 1px)
+  ) !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Line numbers                                                        */
+/* ------------------------------------------------------------------ */
+
+.markdown-section pre > code .code-line {
+  display: block;
+}
+
+.markdown-section pre > code .code-line .line-num {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 2.8em;
+  padding-right: 0.5em;
+  margin-right: 0.8em;
+  text-align: right;
+  color: var(--t-code-gutter-text);
+  background: transparent;
+  border-right: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.markdown-section pre > code .code-line .line-content {
+  padding-left: 0.4em;
+}
+
+/* ------------------------------------------------------------------ */
+/* Copy button                                                         */
+/* ------------------------------------------------------------------ */
+
+.markdown-section pre .copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  background: var(--t-code-gutter-bg);
+  border: 1px solid var(--t-code-gutter-border);
+  border-radius: 6px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.markdown-section pre .copy-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--t-code-gutter-text);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 0.15s;
+}
+
+.markdown-section pre:hover .copy-btn {
+  opacity: 1;
+}
+
+.markdown-section pre .copy-btn:hover {
+  background: var(--t-code-border);
+}
+
+.markdown-section pre .copy-btn:hover svg {
+  stroke: var(--t-code-text);
+}
+
+/* ------------------------------------------------------------------ */
+/* Prism syntax highlighting                                           */
+/* ------------------------------------------------------------------ */
+
+.markdown-section pre code .token.comment,
+.markdown-section pre code .token.prolog,
+.markdown-section pre code .token.doctype,
+.markdown-section pre code .token.cdata {
+  color: var(--t-syn-comment);
+  font-style: italic;
+}
+
+.markdown-section pre code .token.punctuation {
+  color: var(--t-syn-punctuation);
+}
+
+.markdown-section pre code .token.property,
+.markdown-section pre code .token.tag,
+.markdown-section pre code .token.boolean,
+.markdown-section pre code .token.number,
+.markdown-section pre code .token.constant,
+.markdown-section pre code .token.symbol {
+  color: var(--t-syn-property);
+}
+
+.markdown-section pre code .token.selector,
+.markdown-section pre code .token.attr-name,
+.markdown-section pre code .token.string,
+.markdown-section pre code .token.char,
+.markdown-section pre code .token.builtin {
+  color: var(--t-syn-string);
+}
+
+.markdown-section pre code .token.operator,
+.markdown-section pre code .token.entity,
+.markdown-section pre code .token.url {
+  color: var(--t-syn-operator);
+}
+
+.markdown-section pre code .token.atrule,
+.markdown-section pre code .token.attr-value,
+.markdown-section pre code .token.keyword {
+  color: var(--t-syn-keyword);
+}
+
+.markdown-section pre code .token.function,
+.markdown-section pre code .token.class-name {
+  color: var(--t-syn-function);
+}
+
+.markdown-section pre code .token.regex,
+.markdown-section pre code .token.important,
+.markdown-section pre code .token.variable {
+  color: var(--t-syn-regex);
+}
+
+.markdown-section pre code .token.important,
+.markdown-section pre code .token.bold {
+  font-weight: bold;
+}
+
+.markdown-section pre code .token.italic {
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------------ */
+/* Blockquotes — wider border                                          */
+/* ------------------------------------------------------------------ */
+
+.markdown-section blockquote {
+  background: var(--t-callout-bg);
+  border-left: 6px solid var(--t-callout-border);
+  border-radius: 0 8px 8px 0;
+  color: var(--t-text);
+  padding: 1em 1.5em;
+  margin: 1.5em 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Tables — minimal, horizontal rules only                             */
+/* ------------------------------------------------------------------ */
+
+.markdown-section table {
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  font-size: 0.9em;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.markdown-section th {
+  background: transparent;
+  color: var(--t-text-muted);
+  border: none;
+  border-bottom: 2px solid var(--t-border);
+  padding: 0.7em 1em;
+  font-weight: 600;
+  text-align: left;
+  text-transform: uppercase;
+  font-size: 0.8em;
+  letter-spacing: 0.04em;
+}
+
+.markdown-section td {
+  border: none;
+  border-bottom: 1px solid var(--t-border);
+  padding: 0.7em 1em;
+}
+
+.markdown-section tr:nth-child(even) {
+  background: transparent;
+}
+
+.markdown-section tr:hover {
+  background: var(--t-bg-alt);
+}
+
+/* ------------------------------------------------------------------ */
+/* GitHub corner                                                       */
+/* ------------------------------------------------------------------ */
+
+.github-corner svg {
+  fill: var(--t-accent);
+  color: var(--t-bg);
+}
+
+/* ------------------------------------------------------------------ */
+/* Scrollbar                                                           */
+/* ------------------------------------------------------------------ */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--t-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
