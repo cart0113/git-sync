@@ -76,6 +76,27 @@ git-sync uninit
 
 This removes only the git-sync sections from your hooks, leaving any other hook content intact.
 
+## Private Dependencies
+
+If you have personal dependencies that shouldn't be shared with collaborators — coding standards, reference docs, tooling configs — use `.git-sync-private.yaml`. It uses the same format as `.git-sync.yaml` but stays gitignored.
+
+```yaml
+# .git-sync-private.yaml — gitignored, only on your machine
+my-standards:
+  path: docs/my-standards
+  git-repo: https://github.com/me/my-standards.git
+  mode: update-branch
+  current-branch: main
+  current-commit: null
+  create-on-missing: true
+  ensure-in-git-ignore: true
+  read-only: true
+  sparse-paths:
+    - docs/
+```
+
+Add `.git-sync-private.yaml` to your `.gitignore`, then `git-sync sync` picks it up automatically alongside the shared config. See [Configuration Reference](/reference/configuration.md#private-config-git-sync-privateyaml) for details.
+
 ## Troubleshooting
 
 ### "yq is required but not installed"

@@ -1,0 +1,33 @@
+# .git-sync-private.yaml
+#
+# Personal repo dependencies — same format as .git-sync.yaml but gitignored.
+# git-sync processes both files during sync, snapshot, and status.
+#
+# Add this file to your .gitignore so personal deps stay off the shared config.
+#
+# Typical use: pull read-only reference material (coding standards, docs from
+# other projects, personal tooling) into your project tree.
+
+my-coding-standards:
+  path: context-db/coding-standards/general-standards
+  git-repo: https://github.com/me/my-standards.git
+  mode: update-branch
+  current-branch: main
+  current-commit: null
+  create-on-missing: true
+  ensure-in-git-ignore: true
+  read-only: true
+  sparse-paths:
+    - context-db/coding-standards/
+
+other-project-docs:
+  path: context-db/other-project-docs
+  git-repo: https://github.com/me/other-project.git
+  mode: update-branch
+  current-branch: main
+  current-commit: null
+  create-on-missing: true
+  ensure-in-git-ignore: true
+  read-only: true
+  sparse-paths:
+    - context-db/using-other-project/

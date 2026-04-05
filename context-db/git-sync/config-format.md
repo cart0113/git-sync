@@ -45,6 +45,13 @@ Uses `git clone --filter=blob:none --sparse` (partial clone) on initial clone,
 then `git sparse-checkout set <paths>`. Only the listed directories are checked
 out. The `.git` has full history but blobs are fetched lazily.
 
+## .git-sync-private.yaml
+
+Identical format to `.git-sync.yaml`. Gitignored. Holds personal dependencies
+that only you need (coding standards, reference docs, tooling). git-sync
+processes both files during sync, snapshot, and status. See `private-config.md`
+for full details.
+
 ### read-only detail
 
 - During **sync**: if the working tree is dirty, sync fails with an error (not a warning)

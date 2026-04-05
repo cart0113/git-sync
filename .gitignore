@@ -2,3 +2,13 @@
 *.swp
 *.swo
 *~
+/.git-sync-private.yaml
+/external
+/context-db/coding-standards/general-coding-standards
+/context-db/using-bruha
+
+# Added by git-sync
+/external/git-standards
+
+# Added by git-sync
+/external/bruha

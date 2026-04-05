@@ -85,6 +85,37 @@ When `true`, the sub-repo is pushed after an auto-commit (requires `commit-track
 
 This is useful when you want sub-repo changes to be immediately available to collaborators. The sub-repo is pushed to its current upstream branch after the auto-commit succeeds.
 
+## Private Config (.git-sync-private.yaml)
+
+git-sync also reads `.git-sync-private.yaml` from the project root. This file uses the exact same format as `.git-sync.yaml` but is intended to be gitignored — it holds personal dependencies that only you need.
+
+**Motivation:** The shared `.git-sync.yaml` is committed so every collaborator gets the same deps. But personal preferences — coding standards, reference docs from other projects, tool configs — don't belong in the shared config. The private config keeps them out of version control while still being managed by git-sync.
+
+```yaml
+# .git-sync-private.yaml
+my-coding-standards:
+  path: context-db/coding-standards/general-standards
+  git-repo: https://github.com/me/my-standards.git
+  mode: update-branch
+  current-branch: main
+  current-commit: null
+  create-on-missing: true
+  ensure-in-git-ignore: true
+  read-only: true
+  sparse-paths:
+    - context-db/coding-standards/
+```
+
+**Setup:**
+
+1. Add `.git-sync-private.yaml` to your `.gitignore`
+2. Create the file at your project root with your personal deps
+3. Run `git-sync sync` — both configs are processed automatically
+
+All commands (`sync`, `snapshot`, `status`) process both config files. The main config runs first, then the private config. Private repos appear under a "Private config" header in status output.
+
+A project can have either file, both, or neither. git-sync handles all combinations.
+
 ## Symlinks
 
 git-sync resolves symlinks when locating its own scripts, so you can symlink `bin/git-sync` into your PATH or into other projects. Repo paths in `.git-sync.yaml` that are symlinks are followed transparently.

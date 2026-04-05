@@ -149,13 +149,32 @@ snapshot_repo() {
 
 snapshot_all() {
     local commit_message="${1:-$GIT_SYNC_COMMIT_MESSAGE}"
-    local repos
-    repos=$(config_list_repos) || return 1
-    local had_errors=0
+    local config_files had_errors=0
+    config_files=$(all_config_files)
 
-    while IFS= read -r repo_name; do
-        snapshot_repo "$repo_name" "$commit_message" || had_errors=1
-    done <<< "$repos"
+    if [[ -z "$config_files" ]]; then
+        echo "No config files found."
+        return 1
+    fi
+
+    while IFS= read -r config_name; do
+        local saved_config="$GIT_SYNC_CONFIG"
+        GIT_SYNC_CONFIG="$config_name"
+
+        if [[ "$config_name" == "$GIT_SYNC_PRIVATE_CONFIG" ]]; then
+            echo ""
+            echo "=== Private config: ${config_name} ==="
+        fi
+
+        local repos
+        repos=$(config_list_repos) || { GIT_SYNC_CONFIG="$saved_config"; continue; }
+
+        while IFS= read -r repo_name; do
+            snapshot_repo "$repo_name" "$commit_message" || had_errors=1
+        done <<< "$repos"
+
+        GIT_SYNC_CONFIG="$saved_config"
+    done <<< "$config_files"
 
     if [[ $had_errors -ne 0 ]]; then
         echo ""
@@ -164,5 +183,5 @@ snapshot_all() {
     fi
 
     echo ""
-    echo "Snapshot complete. Review .git-sync.yaml and commit."
+    echo "Snapshot complete. Review config files and commit."
 }

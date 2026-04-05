@@ -53,47 +53,67 @@ EOF
 
 cmd_status() {
     check_yq_installed || return 1
-    config_exists || { echo "No .git-sync.yaml found in project root."; return 1; }
 
-    local repos
-    repos=$(config_list_repos) || return 1
+    local config_files
+    config_files=$(all_config_files)
+
+    if [[ -z "$config_files" ]]; then
+        echo "No config files found in project root."
+        return 1
+    fi
+
     local project_root
     project_root=$(git rev-parse --show-toplevel 2>/dev/null) || return 1
 
-    while IFS= read -r repo_name; do
-        local path mode read_only sparse_paths
-        path=$(config_get "$repo_name" "path")
-        mode=$(config_get "$repo_name" "mode")
-        read_only=$(config_get_with_default "$repo_name" "read-only" "false")
-        sparse_paths=$(config_get_list "$repo_name" "sparse-paths")
-        local full_path="${project_root}/${path}"
+    while IFS= read -r config_name; do
+        local saved_config="$GIT_SYNC_CONFIG"
+        GIT_SYNC_CONFIG="$config_name"
 
-        echo "--- ${repo_name} ---"
-        echo "  Path: ${path}"
-        echo "  Mode: ${mode}"
-        if [[ "$read_only" == "true" ]]; then
-            echo "  Read-only: yes"
-        fi
-        if [[ -n "$sparse_paths" ]]; then
-            echo "  Sparse paths: ${sparse_paths//$'\n'/, }"
+        if [[ "$config_name" == "$GIT_SYNC_PRIVATE_CONFIG" ]]; then
+            echo "=== Private config: ${config_name} ==="
+            echo ""
         fi
 
-        if [[ ! -d "$full_path/.git" ]]; then
-            echo "  State: NOT CLONED"
-        else
-            cd "$full_path"
-            local branch commit dirty=""
-            branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-            commit=$(git rev-parse --short HEAD 2>/dev/null)
-            if ! git diff-index --quiet HEAD -- 2>/dev/null; then
-                dirty=" (dirty)"
+        local repos
+        repos=$(config_list_repos) || { GIT_SYNC_CONFIG="$saved_config"; continue; }
+
+        while IFS= read -r repo_name; do
+            local path mode read_only sparse_paths
+            path=$(config_get "$repo_name" "path")
+            mode=$(config_get "$repo_name" "mode")
+            read_only=$(config_get_with_default "$repo_name" "read-only" "false")
+            sparse_paths=$(config_get_list "$repo_name" "sparse-paths")
+            local full_path="${project_root}/${path}"
+
+            echo "--- ${repo_name} ---"
+            echo "  Path: ${path}"
+            echo "  Mode: ${mode}"
+            if [[ "$read_only" == "true" ]]; then
+                echo "  Read-only: yes"
             fi
-            echo "  Branch: ${branch}"
-            echo "  Commit: ${commit}${dirty}"
-            cd "$project_root"
-        fi
-        echo ""
-    done <<< "$repos"
+            if [[ -n "$sparse_paths" ]]; then
+                echo "  Sparse paths: ${sparse_paths//$'\n'/, }"
+            fi
+
+            if [[ ! -d "$full_path/.git" ]]; then
+                echo "  State: NOT CLONED"
+            else
+                cd "$full_path"
+                local branch commit dirty=""
+                branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+                commit=$(git rev-parse --short HEAD 2>/dev/null)
+                if ! git diff-index --quiet HEAD -- 2>/dev/null; then
+                    dirty=" (dirty)"
+                fi
+                echo "  Branch: ${branch}"
+                echo "  Commit: ${commit}${dirty}"
+                cd "$project_root"
+            fi
+            echo ""
+        done <<< "$repos"
+
+        GIT_SYNC_CONFIG="$saved_config"
+    done <<< "$config_files"
 }
 
 main() {
@@ -103,11 +123,11 @@ main() {
 
     case "$command" in
         sync)
-            config_exists || { echo "No .git-sync.yaml found. Create one or see examples/."; exit 1; }
+            config_exists || private_config_exists || { echo "No .git-sync.yaml or .git-sync-private.yaml found. Create one or see examples/."; exit 1; }
             sync_all
             ;;
         snapshot)
-            config_exists || { echo "No .git-sync.yaml found."; exit 1; }
+            config_exists || private_config_exists || { echo "No .git-sync.yaml or .git-sync-private.yaml found."; exit 1; }
             shift
             local snapshot_message="$GIT_SYNC_COMMIT_MESSAGE"
             if [[ "${1:-}" == "-m" && -n "${2:-}" ]]; then
