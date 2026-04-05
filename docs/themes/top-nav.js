@@ -16,6 +16,15 @@
   var cfg = window.__docsifyExtConfig || {};
   var TOP_NAV_OFFSET = 75;
 
+  function updateNavHeight(iconSize) {
+    var navHeight = iconSize + 16;
+    var offset = navHeight + 17;
+    document.documentElement.style.setProperty('--t-top-nav-height', navHeight + 'px');
+    document.documentElement.style.setProperty('--t-top-icon-size', iconSize + 'px');
+    TOP_NAV_OFFSET = offset;
+    if (window.$docsify) window.$docsify.topMargin = offset;
+  }
+
   function getCurrentPath() {
     return (window.location.hash || '#/').split('?')[0];
   }
@@ -272,6 +281,10 @@
       icon.src = cfg.site_icon;
       icon.alt = '';
       icon.className = 'ext-top-brand-icon';
+      icon.onload = function () {
+        var size = Math.max(icon.offsetWidth, icon.offsetHeight);
+        if (size > 42) updateNavHeight(size);
+      };
       brand.appendChild(icon);
     }
 

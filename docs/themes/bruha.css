@@ -228,14 +228,14 @@ html.ext-folder-chevron
   top: 3px;
   left: 0;
   right: 0;
-  height: 58px;
+  height: var(--t-top-nav-height, 58px);
   background: var(--t-sidebar-bg);
   border-bottom: 1px solid var(--t-border);
   padding-top: 5px;
-  padding-bottom: 5px;
+  padding-bottom: 0;
   display: grid;
   grid-template-columns: 320px 1fr auto auto auto;
-  align-items: center;
+  align-items: stretch;
   z-index: 50;
 }
 
@@ -253,8 +253,8 @@ html.ext-folder-chevron
 }
 
 .ext-top-brand-icon {
-  width: 42px;
-  height: 42px;
+  width: var(--t-top-icon-size, 42px);
+  height: var(--t-top-icon-size, 42px);
   flex-shrink: 0;
 }
 
@@ -274,7 +274,7 @@ html.ext-folder-chevron
 /* --- Nav tabs --- */
 .ext-top-tabs {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   height: 100%;
   gap: 0;
   padding-left: 0.5rem;
@@ -292,9 +292,10 @@ html.ext-folder-chevron
   font-weight: 600;
   color: color-mix(in srgb, var(--t-sidebar-text) 65%, transparent);
   padding: 0 1.1em;
-  height: 100%;
+  display: flex;
+  align-items: center;
   cursor: pointer;
-  border-bottom: 2px solid transparent;
+  border-bottom: 4px solid transparent;
   transition:
     color 0.15s,
     border-color 0.15s;
@@ -495,16 +496,16 @@ html.ext-has-top-nav .sidebar .search {
 }
 
 html.ext-has-top-nav .sidebar {
-  padding-top: 61px !important;
+  padding-top: calc(var(--t-top-nav-height, 58px) + 3px) !important;
 }
 
 html.ext-has-top-nav section.content {
-  padding-top: 68px !important;
+  padding-top: calc(var(--t-top-nav-height, 58px) + 10px) !important;
 }
 
 /* Add scroll room so the last heading on any page can scroll to the top */
 html.ext-has-top-nav .markdown-section {
-  padding-bottom: calc(100vh - 75px);
+  padding-bottom: calc(100vh - var(--t-top-nav-height, 58px) - 17px);
 }
 
 html.ext-has-top-nav body::before {
