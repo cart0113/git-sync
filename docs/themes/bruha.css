@@ -45,6 +45,7 @@ html.ext-inline-sidebar .sidebar-nav li.sb-has-sections > a {
 /* Chevron on all page links (right-pointing ">", collapsed look) */
 html.ext-folder-chevron.ext-inline-sidebar .sidebar-nav li.sb-page-link > a {
   position: relative;
+  padding-left: 2em;
 }
 
 html.ext-folder-chevron.ext-inline-sidebar

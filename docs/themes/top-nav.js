@@ -257,8 +257,6 @@
       });
     }
 
-    if (folderData.length === 0) return;
-
     /* Build the top bar */
     topNavEl = document.createElement('div');
     topNavEl.className = 'ext-top-nav';
@@ -266,7 +264,8 @@
     /* --- Left: icon + title --- */
     var brand = document.createElement('a');
     brand.className = 'ext-top-brand';
-    brand.href = '#/overview/overview';
+    var nameLink = document.querySelector('.app-name-link');
+    brand.href = nameLink ? nameLink.getAttribute('href') : '#/';
 
     if (cfg.site_icon) {
       var icon = document.createElement('img');
@@ -278,33 +277,35 @@
 
     var title = document.createElement('span');
     title.className = 'ext-top-brand-title';
-    title.textContent = document.querySelector('.app-name-link')
-      ? document.querySelector('.app-name-link').textContent.trim()
+    title.textContent = nameLink
+      ? nameLink.textContent.trim()
       : 'bruha';
     brand.appendChild(title);
     topNavEl.appendChild(brand);
 
-    /* --- Center: nav tabs --- */
-    var tabs = document.createElement('div');
-    tabs.className = 'ext-top-tabs';
+    /* --- Center: nav tabs (only when there are folders) --- */
+    if (folderData.length > 0) {
+      var tabs = document.createElement('div');
+      tabs.className = 'ext-top-tabs';
 
-    for (var j = 0; j < folderData.length; j++) {
-      var btn = document.createElement('button');
-      btn.textContent = folderData[j].label;
-      folderData[j].button = btn;
+      for (var j = 0; j < folderData.length; j++) {
+        var btn = document.createElement('button');
+        btn.textContent = folderData[j].label;
+        folderData[j].button = btn;
 
-      (function (idx) {
-        btn.addEventListener('click', function () {
-          activateFolder(idx);
-          var href = folderData[idx].firstHref;
-          if (href) window.location.hash = href;
-        });
-      })(j);
+        (function (idx) {
+          btn.addEventListener('click', function () {
+            activateFolder(idx);
+            var href = folderData[idx].firstHref;
+            if (href) window.location.hash = href;
+          });
+        })(j);
 
-      tabs.appendChild(btn);
+        tabs.appendChild(btn);
+      }
+
+      topNavEl.appendChild(tabs);
     }
-
-    topNavEl.appendChild(tabs);
 
     /* --- Spacer --- */
     var spacer = document.createElement('div');
@@ -320,7 +321,7 @@
     if (search) topNavEl.appendChild(search);
 
     document.body.appendChild(topNavEl);
-    activateFolder(findActiveIndex());
+    if (folderData.length > 0) activateFolder(findActiveIndex());
   }
 
   function applyFolderState() {

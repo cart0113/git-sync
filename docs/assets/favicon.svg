@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Lavender arrow down-left (scaled up) -->
+  <polygon points="4,38 26,34 22,28 40,10 33,3 15,21 11,15" fill="#c6b3e0" stroke="#8870a8" stroke-width="2.5"/>
+
+  <!-- Blue arrow up-right (scaled up) -->
+  <polygon points="60,26 55,44 50,39 32,57 25,50 43,32 38,27" fill="#a8cce4" stroke="#6090b0" stroke-width="2.5"/>
+</svg>
