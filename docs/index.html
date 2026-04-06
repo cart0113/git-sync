@@ -4,12 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>git-sync</title>
-    <!-- Redirect bare root so docsify's sidebar URL matching works -->
     <script>
       (function () {
         var h = window.location.hash;
-        if (!h || h === '#/' || h === '#/README') {
-          window.location.hash = '#/overview/overview';
+        if (!h || h === "#/" || h === "#/README") {
+          window.location.hash = "#/overview/overview";
         }
       })();
     </script>
@@ -38,31 +37,23 @@
       href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css"
     />
     <!-- theme -->
-    <link rel="stylesheet" href="themes/code-one.css?v=20260406004024" />
+    <link rel="stylesheet" href="themes/code-one.css?v=20260406004843" />
     <!-- color theme overrides (light + dark variants) -->
-    <link rel="stylesheet" href="themes/color-themes.css?v=20260406004024" />
-    <!-- extension styles (indicator, collapsible folders, top nav, toggles) -->
-    <link rel="stylesheet" href="themes/bruha.css?v=20260406004024" />
-    <!-- project overrides -->
-    <style>:root { --t-top-icon-size: 56px; --t-top-nav-height: 72px; }</style>
-    <!-- mobile responsive layout (hamburger drawer) -->
-    <link rel="stylesheet" href="themes/mobile-nav.css?v=20260406004024" />
+    <link rel="stylesheet" href="themes/color-themes.css?v=20260406004843" />
+    <!-- extension styles -->
+    <link rel="stylesheet" href="themes/bruha.css?v=20260406004843" />
+    <!-- mobile responsive layout -->
+    <link rel="stylesheet" href="themes/mobile-nav.css?v=20260406004843" />
     <!-- generated config (applies CSS classes before render) -->
-    <script src="themes/bruha-config.js?v=20260406004024"></script>
+    <script src="themes/bruha-config.js?v=20260406004843"></script>
     <!-- theme controls (applies saved choice before render) -->
-    <script src="themes/theme-controls.js?v=20260406004024"></script>
-    <!-- code enhancements plugin (load before docsify) -->
-    <script src="themes/code-enhancements.js?v=20260406004024"></script>
-    <!-- sidebar bar indicator (load before docsify) -->
-    <script src="themes/sidebar-indicator.js?v=20260406004024"></script>
-    <!-- collapsible folder sections -->
-    <script src="themes/collapsible-folders.js?v=20260406004024"></script>
-    <!-- mobile hamburger + drawer (replaces top nav on small screens) -->
-    <script src="themes/mobile-nav.js?v=20260406004024"></script>
-    <!-- top-level folder navigation bar -->
-    <script src="themes/top-nav.js?v=20260406004024"></script>
-    <!-- redirect folder-only URLs to first child page -->
-    <script src="themes/folder-redirect.js?v=20260406004024"></script>
+    <script src="themes/theme-controls.js?v=20260406004843"></script>
+    <script src="themes/code-enhancements.js?v=20260406004843"></script>
+    <script src="themes/sidebar-indicator.js?v=20260406004843"></script>
+    <script src="themes/collapsible-folders.js?v=20260406004843"></script>
+    <script src="themes/mobile-nav.js?v=20260406004843"></script>
+    <script src="themes/top-nav.js?v=20260406004843"></script>
+    <script src="themes/folder-redirect.js?v=20260406004843"></script>
   </head>
   <body>
     <!-- SVG sprite — hidden, reused via <use href="#icon-name"/> -->
@@ -70,6 +61,36 @@
       <symbol id="icon-github" viewBox="0 0 24 24">
         <path
           d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+          fill="currentColor"
+        />
+      </symbol>
+      <symbol id="icon-facebook" viewBox="0 0 24 24">
+        <path
+          d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+          fill="currentColor"
+        />
+      </symbol>
+      <symbol id="icon-x" viewBox="0 0 24 24">
+        <path
+          d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+          fill="currentColor"
+        />
+      </symbol>
+      <symbol id="icon-instagram" viewBox="0 0 24 24">
+        <path
+          d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+          fill="currentColor"
+        />
+      </symbol>
+      <symbol id="icon-threads" viewBox="0 0 192 192">
+        <path
+          d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.68-1.14-23.82 1.371-39.134 15.264-38.105 34.568.522 9.792 5.4 18.216 13.735 23.719 7.047 4.652 16.124 6.927 25.557 6.412 12.458-.681 22.231-5.436 29.049-14.127 5.178-6.6 8.453-15.153 9.899-25.93 5.937 3.583 10.337 8.298 12.767 13.966 4.132 9.635 4.373 25.468-8.546 38.376-11.319 11.308-24.925 16.2-45.488 16.351-22.809-.169-40.06-7.484-51.275-21.742C35.236 139.966 29.808 120.682 29.6 96c.208-24.682 5.636-43.966 16.129-57.317C56.944 24.425 74.195 17.11 97.004 16.94c23.024.17 40.66 7.52 52.404 21.853 5.712 6.979 10.097 15.66 13.07 25.792l14.944-4.003c-3.526-12.07-8.872-22.556-16.018-31.285C147.382 12.618 125.064 3.27 97.04 3.07h-.075C69.089 3.27 47.151 12.66 33.251 29.407 17.87 47.9 10.041 73.707 9.8 96.046v.105c.241 22.339 8.07 48.146 23.451 66.639 13.9 16.747 35.838 26.137 63.714 26.337h.074c24.44-.163 41.521-6.457 55.407-20.417 17.684-17.784 17.18-40.18 11.39-53.636-4.157-9.665-12.123-17.467-23.048-22.823l-.251-.123zM97.297 125.913c-10.46.57-21.305-4.078-21.778-12.945-.348-6.525 4.631-13.823 23.762-14.926 2.084-.12 4.13-.18 6.138-.18 6.257 0 12.123.558 17.458 1.645-1.988 21.307-14.187 25.825-25.58 26.406z"
+          fill="currentColor"
+        />
+      </symbol>
+      <symbol id="icon-bluesky" viewBox="0 0 600 530">
+        <path
+          d="m135.72 44.03c66.496 49.921 138.02 151.14 164.28 205.46 26.262-54.316 97.782-155.54 164.28-205.46 47.98-36.021 125.72-63.892 125.72 24.795 0 17.712-10.155 148.79-16.111 170.07-20.703 73.984-96.144 92.854-163.25 81.433 117.3 19.964 147.14 86.092 82.697 152.22-122.39 125.59-175.91-31.511-189.63-71.766-2.514-7.3797-3.6904-10.832-3.7077-7.8964-0.0174-2.9357-1.1937 0.51669-3.7077 7.8964-13.714 40.255-67.233 197.36-189.63 71.766-64.444-66.128-34.605-132.26 82.697-152.22-67.108 11.421-142.55-7.4491-163.25-81.433-5.9562-21.282-16.111-152.36-16.111-170.07 0-88.687 77.742-60.816 125.72-24.795z"
           fill="currentColor"
         />
       </symbol>
@@ -128,30 +149,39 @@
         <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
       </symbol>
+      <symbol id="icon-palette" viewBox="0 0 24 24" fill="currentColor">
+        <path
+          d="M12 22C6.49 22 2 17.51 2 12S6.49 2 12 2s10 4.04 10 9c0 3.31-2.69 6-6 6h-1.77c-.28 0-.5.22-.5.5 0 .12.05.23.13.33.41.47.64 1.06.64 1.67A2.5 2.5 0 0 1 12 22zm0-18c-4.41 0-8 3.59-8 8s3.59 8 8 8c.28 0 .5-.22.5-.5a.54.54 0 0 0-.14-.35c-.41-.46-.63-1.05-.63-1.65a2.5 2.5 0 0 1 2.5-2.5H16c2.21 0 4-1.79 4-4 0-3.86-3.59-7-8-7z"
+        />
+        <circle cx="6.5" cy="11.5" r="1.5" />
+        <circle cx="9.5" cy="7.5" r="1.5" />
+        <circle cx="14.5" cy="7.5" r="1.5" />
+        <circle cx="17.5" cy="11.5" r="1.5" />
+      </symbol>
     </svg>
 
     <div id="app"></div>
     <script>
       var cfg = window.__docsifyExtConfig;
       window.$docsify = {
-        name: 'git-sync',
-        nameLink: '#/overview/overview',
-        basePath: 'src/',
-        repo: cfg.github_corner ? 'https://github.com/cart0113/git-sync' : '',
+        name: "git-sync",
+        nameLink: "#/overview/overview",
+        basePath: "src/",
+        repo: cfg.github_corner ? "https://github.com/cart0113/git-sync" : "",
         loadSidebar: true,
         subMaxLevel: cfg.document_header_depth,
         auto2top: true,
-        topMargin: cfg.top_level_folders_as_top_control ? 89 : 0,
+        topMargin: cfg.top_level_folders_as_top_control ? 75 : 0,
         search: {
-          placeholder: 'Search docs',
-          noData: 'No results.',
+          placeholder: "Search docs",
+          noData: "No results.",
           depth: 3,
           hideOtherSidebarContent: false,
         },
         plugins: [
           codeEnhancementsPlugin,
           collapsibleFoldersPlugin,
-          cfg.theme_controls !== 'none' ? themeControlsPlugin : null,
+          cfg.theme_controls !== "none" ? themeControlsPlugin : null,
           cfg.document_inline_sidebar_selector || cfg.page_section_collapsible
             ? sidebarIndicatorPlugin
             : null,

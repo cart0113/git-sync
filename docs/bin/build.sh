@@ -27,11 +27,13 @@ import bruha.sidebar_builder as sb
 config = cfg.load_config('$DOCS_DIR')
 sb.write_sidebar('$DOCS_DIR', config['top_level_folders_as_top_control'], config['content_folder'])
 cfg.generate_config_js('$DOCS_DIR')
-print('Built _sidebar.md + bruha-config.js')
+cfg.generate_index_html('$DOCS_DIR')
+print('Built _sidebar.md + bruha-config.js + index.html')
 "
 
 STAMP=$(date +%Y%m%d%H%M%S)
-sed -i '' "s/?v=[0-9a-zA-Z]*/?v=${STAMP}/g" "$DOCS_DIR/index.html"
+sed -i '' "s/?v=CACHEBUST/?v=${STAMP}/g" "$DOCS_DIR/index.html"
+sed -i '' "s/?v=[0-9]\{14\}/?v=${STAMP}/g" "$DOCS_DIR/index.html"
 echo "Cache bust: v=${STAMP}"
 
-npx prettier --write "$DOCS_DIR/src/**/*.md" "$DOCS_DIR/themes/bruha-config.js" 2>&1 | tail -1
+npx prettier --write "$DOCS_DIR/src/**/*.md" "$DOCS_DIR/themes/bruha-config.js" "$DOCS_DIR/index.html" 2>&1 | tail -1

@@ -8,7 +8,7 @@ Each top-level key is a logical name for a dependency. The name is used in statu
 
 ```yaml
 _settings:
-  parent-commit-message: <prefix template>  # optional, default: "[via {parent}]"
+  parent-commit-message: <prefix template> # optional, default: "[via {parent}]"
 
 <repo-name>:
   path: <relative path from project root>
@@ -20,7 +20,7 @@ _settings:
   ensure-in-git-ignore: <true|false>
   commit-tracked-files-on-parent-commit: <true|false>
   push-after-auto-commit: <true|false>
-  parent-commit-message: <prefix template>  # optional per-repo override
+  parent-commit-message: <prefix template> # optional per-repo override
 ```
 
 ## Fields
@@ -88,6 +88,7 @@ Without `-m`, the default message body is `git-sync: auto-commit tracked changes
 A prefix template prepended to auto-commit messages in sub-repos. The `{parent}` token expands to the parent project name. Defaults to `[via {parent}]`.
 
 Can be set at two levels:
+
 - **Per-repo** — overrides the prefix for that specific sub-repo
 - **Global** — set in `_settings.parent-commit-message` to override the default for all repos
 
@@ -99,7 +100,7 @@ _settings:
 
 chart-lib:
   commit-tracked-files-on-parent-commit: true
-  parent-commit-message: "[chart-lib auto]"  # overrides _settings for this repo
+  parent-commit-message: "[chart-lib auto]" # overrides _settings for this repo
 ```
 
 ### push-after-auto-commit
@@ -108,7 +109,7 @@ When `true`, the sub-repo is pushed after an auto-commit (requires `commit-track
 
 This is useful when you want sub-repo changes to be immediately available to collaborators. The sub-repo is pushed to its current upstream branch after the auto-commit succeeds.
 
-## Global Settings (_settings)
+## Global Settings (\_settings)
 
 The reserved `_settings` key holds options that apply to all repos in the config file. Currently supported:
 

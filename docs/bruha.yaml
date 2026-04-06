@@ -1,3 +1,6 @@
+site_name: git-sync
+site_description: Compose independent git repos into a pseudo-monorepo
+home_path: overview/overview
 light_theme: parchment
 dark_theme: near-midnight
 theme_controls: dark_toggle

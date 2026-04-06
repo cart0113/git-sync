@@ -18,6 +18,12 @@ window.__docsifyExtConfig = {
   social_links: {
     github: "https://github.com/cart0113/git-sync",
   },
+  style: "code-one",
+  site_name: "git-sync",
+  site_description: "Compose independent git repos into a pseudo-monorepo",
+  og_image: "assets/og-image.svg",
+  home_path: "overview/overview",
+  prism_languages: ["python", "bash", "markdown", "yaml", "javascript", "json"],
 };
 (function (c) {
   document.documentElement.classList.add("theme-" + c.light_theme);
@@ -35,4 +41,5 @@ window.__docsifyExtConfig = {
       "--t-sidebar-indent",
       c.sidebar_indent,
     );
+  if (c.style) document.documentElement.classList.add("style-" + c.style);
 })(window.__docsifyExtConfig);
