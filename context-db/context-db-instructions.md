@@ -28,18 +28,35 @@ gotchas, data model relationships, or anything a future agent would need to work
 safely on this codebase — add it to the context-db. If you had to figure it out
 the hard way, it belongs there.
 
-When creating or updating context documents:
+### Frontmatter Is Required — Always Keep It Updated
 
-- **New document**: YAML frontmatter with `description`, then markdown content.
-- **New folder**: create `<foldername>.md` with only YAML frontmatter:
-  `description: <one-line summary>`. This marks the folder as a context node.
-- **Descriptions are critical.** The description is the only thing an agent sees
-  in the TOC. Write the most useful, concise summary possible.
+Every file and folder in context-db has YAML frontmatter with a `description`
+field. **This is not optional.** The description is the only thing agents see in
+the TOC — it determines whether they read or skip a document.
+
+**When you change anything in context-db, you MUST update the frontmatter:**
+
+- **Editing a document**: If the content's scope or focus changed, update the
+  `description` to match. A stale description is worse than no description —
+  it actively misleads future agents.
+- **Creating a new document**: Always include YAML frontmatter with
+  `description`, then markdown content.
+- **Creating a new folder**: Create `<foldername>.md` with only YAML
+  frontmatter: `description: <one-line summary>`. This marks the folder as a
+  context node.
+- **Renaming or moving**: Update descriptions in the moved items and in any
+  parent folder description files if scope changed.
+- **Deleting**: Remove the corresponding description file if it becomes empty
+  or irrelevant.
+
+### Content Maintenance
+
+- **Descriptions are critical.** Write the most useful, concise summary
+  possible — this is the agent's only signal for relevance.
 - **Fix stale content.** If a context document contradicts the current code,
   correct it or remove it.
+- Documents can optionally include `status: draft`, `status: stable`, or
+  `status: deprecated`. When omitted, the document is assumed stable. Non-stable
+  status appears in the TOC.
 - TOC files are generated on the fly by `bin/show_toc.sh` — you do not need to
   regenerate anything after adding or editing documents.
-
-Documents can optionally include `status: draft`, `status: stable`, or
-`status: deprecated`. When omitted, the document is assumed stable. Non-stable
-status appears in the TOC.
