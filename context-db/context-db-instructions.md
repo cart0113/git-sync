@@ -1,17 +1,18 @@
 ---
-description: Discover and maintain project context via context-db TOC files
+description: Discover and maintain project context via context-db
 ---
 
 `context-db/` is this project's **context knowledge database** — hierarchical
-Markdown files with auto-generated tables of contents, managed by
+Markdown files with on-demand tables of contents, managed by
 [context-db](https://github.com/cart0113/context-db).
 
 ## Reading
 
-Start at `context-db/context-db-toc.md`. Each TOC entry has a description and a
-path:
+Run `bin/show_toc.sh context-db/` to see the top-level table of contents. Each
+TOC entry has a description and a path:
 
-- Path ending in `-toc.md` → subfolder. Read that TOC to go deeper.
+- Path ending in `-toc.md` → subfolder. Run `bin/show_toc.sh` on that subfolder
+  to go deeper (e.g., `bin/show_toc.sh context-db/some-folder/`).
 - Any other path → document. Read it if the description is relevant to your
   task.
 
@@ -36,11 +37,8 @@ When creating or updating context documents:
   in the TOC. Write the most useful, concise summary possible.
 - **Fix stale content.** If a context document contradicts the current code,
   correct it or remove it.
-- Run `bin/build_toc.sh context-db/` to regenerate TOC files after changes.
-  **Always pass `context-db/` as the argument.** Running without it scans the
-  entire repo and generates spurious TOC files in any directory that has a
-  `<dirname>.md` file (e.g., `docs/src/overview/overview.md`).
-- **Never edit `-toc.md` files.** They are generated automatically.
+- TOC files are generated on the fly by `bin/show_toc.sh` — you do not need to
+  regenerate anything after adding or editing documents.
 
 Documents can optionally include `status: draft`, `status: stable`, or
 `status: deprecated`. When omitted, the document is assumed stable. Non-stable
