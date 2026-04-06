@@ -7,6 +7,9 @@ git-sync is configured via a `.git-sync.yaml` file at the root of your project.
 Each top-level key is a logical name for a dependency. The name is used in status output and log messages.
 
 ```yaml
+_settings:
+  parent-commit-message: <prefix template>  # optional, default: "[via {parent}]"
+
 <repo-name>:
   path: <relative path from project root>
   git-repo: <git clone URL or path>
@@ -15,8 +18,9 @@ Each top-level key is a logical name for a dependency. The name is used in statu
   current-commit: <sha or tag>
   create-on-missing: <true|false>
   ensure-in-git-ignore: <true|false>
-  commit-tracked-files-on-parent-commit: <true|false> # experimental
-  push-after-auto-commit: <true|false> # experimental
+  commit-tracked-files-on-parent-commit: <true|false>
+  push-after-auto-commit: <true|false>
+  parent-commit-message: <prefix template>  # optional per-repo override
 ```
 
 ## Fields
@@ -62,7 +66,7 @@ When `true` (the default), `git-sync sync` will clone the repo if the target pat
 
 When `true` (the default), git-sync automatically adds the repo path to your project's `.gitignore` so the cloned repo is not tracked by the parent project.
 
-### commit-tracked-files-on-parent-commit (experimental)
+### commit-tracked-files-on-parent-commit
 
 When `true`, dirty sub-repos have their tracked file changes automatically committed during `git-sync snapshot`. Defaults to `false`.
 
@@ -70,7 +74,7 @@ This is useful when you actively co-edit files in sub-repos alongside the parent
 
 Only tracked files are committed (`git add -u`). Untracked files are left alone.
 
-The commit message is automatically prepended with `[via <parent-project>]` so it's clear the parent repo triggered the commit. Use `-m` with snapshot to set the message body:
+The commit message is prepended with a configurable prefix (see `parent-commit-message`). Use `-m` with snapshot to set the message body:
 
 ```bash
 git-sync snapshot -m "update shared config for new feature"
@@ -79,11 +83,36 @@ git-sync snapshot -m "update shared config for new feature"
 
 Without `-m`, the default message body is `git-sync: auto-commit tracked changes`.
 
-### push-after-auto-commit (experimental)
+### parent-commit-message
+
+A prefix template prepended to auto-commit messages in sub-repos. The `{parent}` token expands to the parent project name. Defaults to `[via {parent}]`.
+
+Can be set at two levels:
+- **Per-repo** — overrides the prefix for that specific sub-repo
+- **Global** — set in `_settings.parent-commit-message` to override the default for all repos
+
+Per-repo takes priority over global, which takes priority over the hardcoded default.
+
+```yaml
+_settings:
+  parent-commit-message: "[sync from {parent}]"
+
+chart-lib:
+  commit-tracked-files-on-parent-commit: true
+  parent-commit-message: "[chart-lib auto]"  # overrides _settings for this repo
+```
+
+### push-after-auto-commit
 
 When `true`, the sub-repo is pushed after an auto-commit (requires `commit-tracked-files-on-parent-commit: true`). Defaults to `false`.
 
 This is useful when you want sub-repo changes to be immediately available to collaborators. The sub-repo is pushed to its current upstream branch after the auto-commit succeeds.
+
+## Global Settings (_settings)
+
+The reserved `_settings` key holds options that apply to all repos in the config file. Currently supported:
+
+- **parent-commit-message** — default prefix template for auto-commit messages (see above)
 
 ## Private Config (.git-sync-private.yaml)
 

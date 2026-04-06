@@ -6,12 +6,16 @@
 # back into .git-sync.yaml. Intended to run before committing
 # the parent project so the config always reflects the pinned state.
 #
-# Experimental: commit-tracked-files-on-parent-commit
+# commit-tracked-files-on-parent-commit:
 #   When true on a repo entry, dirty sub-repos have their tracked file
 #   changes auto-committed during snapshot. Pass -m to set the message.
-#   Commit messages are prepended with [via <parent-project>].
 #
-# Experimental: push-after-auto-commit
+# parent-commit-message:
+#   Prefix prepended to auto-commit messages. Set per-repo or globally
+#   via _settings.parent-commit-message. Default: "[via {parent}]".
+#   The {parent} token expands to the parent project name.
+#
+# push-after-auto-commit:
 #   When true (and commit-tracked-files-on-parent-commit is also true),
 #   the sub-repo is pushed after auto-committing.
 
@@ -25,6 +29,7 @@ auto_commit_tracked_files() {
     local full_path="$2"
     local message="$3"
     local should_push="$4"
+    local prefix="$5"
 
     cd "$full_path" || return 1
 
@@ -33,10 +38,7 @@ auto_commit_tracked_files() {
         return 0
     fi
 
-    # Prepend parent project name so it's clear the parent triggered this commit
-    local parent_name
-    parent_name=$(basename "$(git -C "$full_path/.." rev-parse --show-toplevel 2>/dev/null)")
-    local prefixed_message="[via ${parent_name}] ${message}"
+    local prefixed_message="${prefix} ${message}"
 
     echo "  Auto-committing tracked changes in ${full_path}..."
     git add -u
@@ -81,11 +83,20 @@ snapshot_repo() {
 
     echo "--- Snapshot: ${repo_name} (${path}) ---"
 
-    # Check for auto-commit feature (experimental)
     local auto_commit
     auto_commit=$(config_get_with_default "$repo_name" "commit-tracked-files-on-parent-commit" "false")
     local should_push
     should_push=$(config_get_with_default "$repo_name" "push-after-auto-commit" "false")
+
+    # Resolve commit message prefix: per-repo > _settings > hardcoded default
+    local prefix
+    prefix=$(config_get_with_default "$repo_name" "parent-commit-message" "")
+    if [[ -z "$prefix" ]]; then
+        prefix=$(config_get_setting_with_default "parent-commit-message" "[via {parent}]")
+    fi
+    local parent_name
+    parent_name=$(basename "$project_root")
+    prefix="${prefix//\{parent\}/$parent_name}"
 
     cd "$full_path" || return 1
 
@@ -96,7 +107,7 @@ snapshot_repo() {
 
     if [[ "$is_dirty" == "true" ]]; then
         if [[ "$auto_commit" == "true" ]]; then
-            auto_commit_tracked_files "$repo_name" "$full_path" "$commit_message" "$should_push"
+            auto_commit_tracked_files "$repo_name" "$full_path" "$commit_message" "$should_push" "$prefix"
         else
             echo "  WARNING: ${repo_name} has uncommitted changes - snapshot may not reflect clean state"
         fi

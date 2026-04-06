@@ -19,6 +19,7 @@ Each top-level key is a logical repo name. Fields:
 - **sparse-paths**: YAML list of paths to check out via git sparse-checkout; only these directories are materialized in the working tree (default: empty = full checkout)
 - **commit-tracked-files-on-parent-commit**: `true`/`false` — auto-commit tracked changes during snapshot (default: false)
 - **push-after-auto-commit**: `true`/`false` — push sub-repo after auto-commit (default: false, requires commit-tracked-files-on-parent-commit: true)
+- **parent-commit-message**: prefix template for auto-commit messages (default: `[via {parent}]`). `{parent}` expands to parent project name. Per-repo overrides `_settings` global
 
 ## Modes
 
@@ -44,6 +45,20 @@ Fetches all refs and checks out the exact commit or tag. Reproducible pinning.
 Uses `git clone --filter=blob:none --sparse` (partial clone) on initial clone,
 then `git sparse-checkout set <paths>`. Only the listed directories are checked
 out. The `.git` has full history but blobs are fetched lazily.
+
+## Global Settings (_settings)
+
+The reserved `_settings` key holds options that apply to all repos in the config:
+
+```yaml
+_settings:
+  parent-commit-message: "[sync from {parent}]"
+```
+
+Currently supported: `parent-commit-message`.
+
+`config_list_repos` automatically excludes `_settings` from the repo list.
+`config_get_setting_with_default` reads from `_settings`.
 
 ## .git-sync-private.yaml
 

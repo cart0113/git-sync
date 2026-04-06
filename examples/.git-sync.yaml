@@ -4,6 +4,12 @@
 # repository dependencies managed by git-sync.
 #
 # Each top-level key is a logical name for the dependency.
+# The reserved _settings key holds global options.
+
+# Global settings — apply to all repos unless overridden per-repo.
+_settings:
+  # Default prefix for auto-commit messages. {parent} expands to parent project name.
+  # parent-commit-message: "[via {parent}]"
 
 chart-lib:
   path: external/chart-lib
@@ -13,11 +19,14 @@ chart-lib:
   current-commit: abc1234def5678
   create-on-missing: true
   ensure-in-git-ignore: true
-  # Experimental: auto-commit tracked file changes in this sub-repo
+  # Auto-commit tracked file changes in this sub-repo
   # when snapshotting (e.g. during parent pre-commit hook)
   commit-tracked-files-on-parent-commit: false
-  # Experimental: push the sub-repo after auto-committing
+  # Push the sub-repo after auto-committing
   push-after-auto-commit: false
+  # Override the commit message prefix for this repo (optional).
+  # {parent} expands to parent project name. Default: "[via {parent}]"
+  # parent-commit-message: "[chart-lib sync]"
 
 shared-config:
   path: vendor/shared-config

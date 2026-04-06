@@ -56,7 +56,21 @@ all_config_files() {
 config_list_repos() {
     local config
     config=$(config_file_path) || return 1
-    yq 'keys | .[]' "$config"
+    yq 'keys | .[] | select(. != "_settings")' "$config"
+}
+
+config_get_setting_with_default() {
+    local field="$1"
+    local default_value="$2"
+    local config
+    config=$(config_file_path) || { echo "$default_value"; return; }
+    local value
+    value=$(yq ".\"_settings\".\"${field}\"" "$config" 2>/dev/null)
+    if [[ "$value" == "null" || -z "$value" ]]; then
+        echo "$default_value"
+    else
+        echo "$value"
+    fi
 }
 
 config_get() {

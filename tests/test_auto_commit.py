@@ -2,7 +2,8 @@
 test_auto_commit.py - Tests for commit-tracked-files-on-parent-commit feature.
 
 Covers: auto-commit dirty tracked files, custom message via -m,
-default false behavior, untracked files left alone, recursive auto-commit.
+default false behavior, untracked files left alone, recursive auto-commit,
+parent-commit-message per-repo and global overrides.
 """
 
 import tests.helpers as h
@@ -221,3 +222,151 @@ def test_auto_commit_recursive(workspace):
     log_c = h.run(["git", "log", "-1", "--format=%s"], cwd=cloned_c)
     assert "chore: sync all" in log_c.stdout.strip()
     assert "[via " in log_c.stdout.strip()
+
+
+def test_parent_commit_message_per_repo(workspace):
+    """Per-repo parent-commit-message overrides the default [via parent] prefix."""
+    bare_c = h.make_bare_repo(workspace, "project_C")
+    commit_c = h.populate_repo(bare_c, {"file.txt": "original"})
+
+    project_a = workspace / "project_A"
+    project_a.mkdir()
+    h.run(["git", "init"], cwd=project_a)
+    h.run(["git", "commit", "--allow-empty", "-m", "init"], cwd=project_a)
+
+    yaml_content = h.make_git_sync_yaml({
+        "project-c": {
+            "path": "external-repos/project_C",
+            "git-repo": str(bare_c),
+            "mode": "update-branch",
+            "current-branch": "main",
+            "current-commit": commit_c,
+            "create-on-missing": True,
+            "ensure-in-git-ignore": True,
+            "commit-tracked-files-on-parent-commit": True,
+            "parent-commit-message": "[custom-prefix]",
+        }
+    })
+    (project_a / ".git-sync.yaml").write_text(yaml_content)
+    h.run_git_sync(project_a, "sync")
+
+    cloned = project_a / "external-repos" / "project_C"
+    (cloned / "file.txt").write_text("changed")
+
+    h.run_git_sync(project_a, "snapshot")
+
+    log = h.run(["git", "log", "-1", "--format=%s"], cwd=cloned)
+    assert log.stdout.strip().startswith("[custom-prefix]")
+    assert "[via " not in log.stdout.strip()
+
+
+def test_parent_commit_message_global_settings(workspace):
+    """_settings.parent-commit-message overrides the hardcoded default."""
+    bare_c = h.make_bare_repo(workspace, "project_C")
+    commit_c = h.populate_repo(bare_c, {"file.txt": "original"})
+
+    project_a = workspace / "project_A"
+    project_a.mkdir()
+    h.run(["git", "init"], cwd=project_a)
+    h.run(["git", "commit", "--allow-empty", "-m", "init"], cwd=project_a)
+
+    yaml_content = (
+        "_settings:\n"
+        '  parent-commit-message: "[global-sync {parent}]"\n\n'
+    ) + h.make_git_sync_yaml({
+        "project-c": {
+            "path": "external-repos/project_C",
+            "git-repo": str(bare_c),
+            "mode": "update-branch",
+            "current-branch": "main",
+            "current-commit": commit_c,
+            "create-on-missing": True,
+            "ensure-in-git-ignore": True,
+            "commit-tracked-files-on-parent-commit": True,
+        }
+    })
+    (project_a / ".git-sync.yaml").write_text(yaml_content)
+    h.run_git_sync(project_a, "sync")
+
+    cloned = project_a / "external-repos" / "project_C"
+    (cloned / "file.txt").write_text("changed")
+
+    h.run_git_sync(project_a, "snapshot")
+
+    log = h.run(["git", "log", "-1", "--format=%s"], cwd=cloned)
+    assert "[global-sync project_A]" in log.stdout.strip()
+    assert "[via " not in log.stdout.strip()
+
+
+def test_parent_commit_message_per_repo_over_global(workspace):
+    """Per-repo parent-commit-message takes priority over _settings."""
+    bare_c = h.make_bare_repo(workspace, "project_C")
+    commit_c = h.populate_repo(bare_c, {"file.txt": "original"})
+
+    project_a = workspace / "project_A"
+    project_a.mkdir()
+    h.run(["git", "init"], cwd=project_a)
+    h.run(["git", "commit", "--allow-empty", "-m", "init"], cwd=project_a)
+
+    yaml_content = (
+        "_settings:\n"
+        '  parent-commit-message: "[global-prefix]"\n\n'
+    ) + h.make_git_sync_yaml({
+        "project-c": {
+            "path": "external-repos/project_C",
+            "git-repo": str(bare_c),
+            "mode": "update-branch",
+            "current-branch": "main",
+            "current-commit": commit_c,
+            "create-on-missing": True,
+            "ensure-in-git-ignore": True,
+            "commit-tracked-files-on-parent-commit": True,
+            "parent-commit-message": "[repo-override]",
+        }
+    })
+    (project_a / ".git-sync.yaml").write_text(yaml_content)
+    h.run_git_sync(project_a, "sync")
+
+    cloned = project_a / "external-repos" / "project_C"
+    (cloned / "file.txt").write_text("changed")
+
+    h.run_git_sync(project_a, "snapshot")
+
+    log = h.run(["git", "log", "-1", "--format=%s"], cwd=cloned)
+    assert log.stdout.strip().startswith("[repo-override]")
+    assert "[global-prefix]" not in log.stdout.strip()
+
+
+def test_parent_commit_message_parent_token_expansion(workspace):
+    """{parent} token in parent-commit-message expands to parent project name."""
+    bare_c = h.make_bare_repo(workspace, "project_C")
+    commit_c = h.populate_repo(bare_c, {"file.txt": "original"})
+
+    project_a = workspace / "project_A"
+    project_a.mkdir()
+    h.run(["git", "init"], cwd=project_a)
+    h.run(["git", "commit", "--allow-empty", "-m", "init"], cwd=project_a)
+
+    yaml_content = h.make_git_sync_yaml({
+        "project-c": {
+            "path": "external-repos/project_C",
+            "git-repo": str(bare_c),
+            "mode": "update-branch",
+            "current-branch": "main",
+            "current-commit": commit_c,
+            "create-on-missing": True,
+            "ensure-in-git-ignore": True,
+            "commit-tracked-files-on-parent-commit": True,
+            "parent-commit-message": "[synced from {parent}]",
+        }
+    })
+    (project_a / ".git-sync.yaml").write_text(yaml_content)
+    h.run_git_sync(project_a, "sync")
+
+    cloned = project_a / "external-repos" / "project_C"
+    (cloned / "file.txt").write_text("changed")
+
+    h.run_git_sync(project_a, "snapshot")
+
+    log = h.run(["git", "log", "-1", "--format=%s"], cwd=cloned)
+    assert "[synced from project_A]" in log.stdout.strip()
