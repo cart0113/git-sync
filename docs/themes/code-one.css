@@ -245,7 +245,7 @@ body::before {
 /* Main content                                                        */
 /* ------------------------------------------------------------------ */
 
-.content {
+section.content {
   background: var(--t-bg) !important;
 }
 
@@ -392,6 +392,11 @@ body::before {
 
 .markdown-section pre::after {
   display: none !important;
+}
+
+.markdown-section pre > code .token {
+  position: static !important;
+  min-height: auto !important;
 }
 
 .markdown-section pre > code {

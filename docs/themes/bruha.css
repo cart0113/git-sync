@@ -89,6 +89,16 @@ html.ext-folder-chevron.ext-inline-sidebar
   ul
   ul
   li.sb-page-link
+  > a {
+  padding-left: calc(3em + 8px);
+}
+
+html.ext-folder-chevron.ext-inline-sidebar
+  .sidebar-nav
+  ul
+  ul
+  ul
+  li.sb-page-link
   > a::before {
   left: calc(1.8em + 8px);
 }

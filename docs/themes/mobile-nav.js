@@ -48,6 +48,7 @@
   var tabsEl = null;
   var navEl = null;
   var folderData = [];
+  var headerSectionEl = null;
 
   function getCurrentPath() {
     return (window.location.hash || '#/').split('?')[0];
@@ -136,6 +137,10 @@
       (nameEl2 ? nameEl2.textContent.trim() : 'bruha') +
       '</span>';
     mobileHeader.appendChild(headerBrand);
+
+    headerSectionEl = document.createElement('span');
+    headerSectionEl.className = 'mobile-header-section';
+    mobileHeader.appendChild(headerSectionEl);
 
     document.body.appendChild(mobileHeader);
 
@@ -426,7 +431,18 @@
       allLinks[k].addEventListener('click', closeDrawer);
     }
 
-    activateTab(findActiveIndex());
+    var activeIdx = findActiveIndex();
+    activateTab(activeIdx);
+
+    if (headerSectionEl) {
+      if (folderData.length > 1) {
+        headerSectionEl.textContent = folderData[activeIdx].label;
+        headerSectionEl.style.display = '';
+      } else {
+        headerSectionEl.textContent = '';
+        headerSectionEl.style.display = 'none';
+      }
+    }
   }
 
   /* ---- Docsify plugin entry point ---- */
