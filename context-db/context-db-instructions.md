@@ -37,8 +37,8 @@ the TOC — it determines whether they read or skip a document.
 **When you change anything in context-db, you MUST update the frontmatter:**
 
 - **Editing a document**: If the content's scope or focus changed, update the
-  `description` to match. A stale description is worse than no description —
-  it actively misleads future agents.
+  `description` to match. A stale description is worse than no description — it
+  actively misleads future agents.
 - **Creating a new document**: Always include YAML frontmatter with
   `description`, then markdown content.
 - **Creating a new folder**: Create `<foldername>.md` with only YAML
@@ -46,13 +46,13 @@ the TOC — it determines whether they read or skip a document.
   context node.
 - **Renaming or moving**: Update descriptions in the moved items and in any
   parent folder description files if scope changed.
-- **Deleting**: Remove the corresponding description file if it becomes empty
-  or irrelevant.
+- **Deleting**: Remove the corresponding description file if it becomes empty or
+  irrelevant.
 
 ### Content Maintenance
 
-- **Descriptions are critical.** Write the most useful, concise summary
-  possible — this is the agent's only signal for relevance.
+- **Descriptions are critical.** Write the most useful, concise summary possible
+  — this is the agent's only signal for relevance.
 - **Fix stale content.** If a context document contradicts the current code,
   correct it or remove it.
 - Documents can optionally include `status: draft`, `status: stable`, or

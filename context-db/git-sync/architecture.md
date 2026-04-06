@@ -25,15 +25,17 @@ newline-separated values.
 ## Sync Layer (lib/sync.sh)
 
 `sync_all` iterates repos from config. For each repo, `sync_repo`:
+
 1. Ensures path is in .gitignore (if configured)
-2. Clones if missing — uses `--filter=blob:none --sparse` when `sparse-paths`
-   is set, then runs `git sparse-checkout set` for the listed paths
+2. Clones if missing — uses `--filter=blob:none --sparse` when `sparse-paths` is
+   set, then runs `git sparse-checkout set` for the listed paths
 3. Checks dirty state: hard error if `read-only: true`, warning otherwise
 4. Applies mode: checkout-commit (fetch + checkout SHA/tag) or update-branch
    (checkout branch + pull)
 5. Recursively syncs if the sub-repo has its own .git-sync.yaml
 
-Recursion uses a subshell with a depth counter (max 10) to prevent infinite loops.
+Recursion uses a subshell with a depth counter (max 10) to prevent infinite
+loops.
 
 ## Snapshot Layer (lib/snapshot.sh)
 
@@ -43,5 +45,5 @@ Repos with `read-only: true` are skipped entirely.
 
 ## Hook Layer (lib/hooks.sh)
 
-Installs pre-commit (runs snapshot) and post-merge (runs sync) hooks.
-Appends to existing hooks rather than overwriting.
+Installs pre-commit (runs snapshot) and post-merge (runs sync) hooks. Appends to
+existing hooks rather than overwriting.
