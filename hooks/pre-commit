@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+# ── Cache-bust docs/index.html ──────────────────────────────────────────────
+
+DOCS_DIR="${REPO_ROOT}/docs"
+if [ -f "${DOCS_DIR}/index.html" ] && git diff --cached --name-only | grep -qE '^docs/'; then
+    STAMP=$(date +%Y%m%d%H%M%S)
+    sed -i '' "s/?v=[0-9a-zA-Z]*/?v=${STAMP}/g" "${DOCS_DIR}/index.html"
+    git add "${DOCS_DIR}/index.html"
+fi
