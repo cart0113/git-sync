@@ -83,16 +83,16 @@
 
 .mobile-header-section {
   display: none;
-  margin-left: 8px;
-  padding-left: 10px;
+  margin-left: 14px;
+  padding-left: 14px;
   border-left: 1.5px solid var(--t-border);
   font-family:
     'Inter',
     -apple-system,
     BlinkMacSystemFont,
     sans-serif;
-  font-weight: 500;
-  font-size: 0.9em;
+  font-weight: 800;
+  font-size: 1.2em;
   color: var(--t-text-muted);
   white-space: nowrap;
   overflow: hidden;
@@ -493,6 +493,10 @@
 
   .mobile-drawer {
     display: flex;
+  }
+
+  .mobile-header-section {
+    display: inline;
   }
 
   /* Hide desktop top nav bar */

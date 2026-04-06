@@ -282,6 +282,234 @@ html.theme-near-midnight.dark-mode {
 }
 
 /* ================================================================== */
+/* Ink — classic editorial, near-monochrome                            */
+/* ================================================================== */
+
+html.theme-ink {
+  --t-bg: #fafafa;
+  --t-bg-alt: #f0f0f0;
+  --t-text: #1a1a1a;
+  --t-text-muted: #6a6a6a;
+  --t-heading: #111111;
+  --t-accent: #333333;
+  --t-accent-hover: #000000;
+  --t-link: #1a1a1a;
+  --t-link-hover: #000000;
+  --t-border: #d0d0d0;
+  --t-code-bg: #f4f4f4;
+  --t-code-text: #1a1a1a;
+  --t-code-border: #d0d0d0;
+  --t-code-gutter-bg: #eaeaea;
+  --t-code-gutter-text: #888888;
+  --t-code-gutter-border: #d0d0d0;
+  --t-inline-code-bg: #ebebeb;
+  --t-inline-code-text: #333333;
+  --t-sidebar-bg: #f0f0f0;
+  --t-sidebar-text: #333333;
+  --t-sidebar-active: #111111;
+  --t-callout-bg: #f0f0f0;
+  --t-callout-border: #888888;
+  --t-table-header-bg: #ebebeb;
+  --t-table-stripe: #f6f6f6;
+  --t-syn-comment: #808080;
+  --t-syn-punctuation: #333333;
+  --t-syn-property: #7a4419;
+  --t-syn-string: #2e6b2e;
+  --t-syn-operator: #555555;
+  --t-syn-keyword: #1a1a8a;
+  --t-syn-function: #5a1a5a;
+  --t-syn-regex: #8a3000;
+}
+
+html.theme-ink.dark-mode {
+  --t-bg: #181818;
+  --t-bg-alt: #222222;
+  --t-text: #d8d8d8;
+  --t-text-muted: #888888;
+  --t-heading: #f0f0f0;
+  --t-accent: #cccccc;
+  --t-accent-hover: #ffffff;
+  --t-link: #d0d0d0;
+  --t-link-hover: #ffffff;
+  --t-border: #3a3a3a;
+  --t-code-bg: #222222;
+  --t-code-text: #d8d8d8;
+  --t-code-border: #3a3a3a;
+  --t-code-gutter-bg: #262626;
+  --t-code-gutter-text: #666666;
+  --t-code-gutter-border: #3a3a3a;
+  --t-inline-code-bg: #2a2a2a;
+  --t-inline-code-text: #c0c0c0;
+  --t-sidebar-bg: #1e1e1e;
+  --t-sidebar-text: #aaaaaa;
+  --t-sidebar-active: #f0f0f0;
+  --t-callout-bg: #252525;
+  --t-callout-border: #555555;
+  --t-table-header-bg: #262626;
+  --t-table-stripe: #1c1c1c;
+  --t-syn-comment: #666666;
+  --t-syn-punctuation: #aaaaaa;
+  --t-syn-property: #d4a86a;
+  --t-syn-string: #88c888;
+  --t-syn-operator: #999999;
+  --t-syn-keyword: #8888cc;
+  --t-syn-function: #bb88bb;
+  --t-syn-regex: #cc8866;
+}
+
+/* ================================================================== */
+/* Sage — warm green, earthy, natural                                  */
+/* ================================================================== */
+
+html.theme-sage {
+  --t-bg: #f5f5ef;
+  --t-bg-alt: #eae8df;
+  --t-text: #2a2e24;
+  --t-text-muted: #5a6450;
+  --t-heading: #2d4a2d;
+  --t-accent: #5a7a5a;
+  --t-accent-hover: #3e5c3e;
+  --t-link: #4a6a4a;
+  --t-link-hover: #3e5c3e;
+  --t-border: #c4c0b0;
+  --t-code-bg: #eceee6;
+  --t-code-text: #2a2e24;
+  --t-code-border: #c0c4b4;
+  --t-code-gutter-bg: #e0e2d8;
+  --t-code-gutter-text: #7a8070;
+  --t-code-gutter-border: #c0c4b4;
+  --t-inline-code-bg: #e2e4da;
+  --t-inline-code-text: #3e5c3e;
+  --t-sidebar-bg: #eae8df;
+  --t-sidebar-text: #3e4a38;
+  --t-sidebar-active: #5a7a5a;
+  --t-callout-bg: #eceee6;
+  --t-callout-border: #7a9a7a;
+  --t-table-header-bg: #e0e2d8;
+  --t-table-stripe: #f0f0ea;
+  --t-syn-comment: #7a8070;
+  --t-syn-punctuation: #3a4030;
+  --t-syn-property: #8a6020;
+  --t-syn-string: #3a7a30;
+  --t-syn-operator: #5a6850;
+  --t-syn-keyword: #2a5a8a;
+  --t-syn-function: #6a4a7a;
+  --t-syn-regex: #9a5a20;
+}
+
+html.theme-sage.dark-mode {
+  --t-bg: #1c1e1a;
+  --t-bg-alt: #252822;
+  --t-text: #c8ccbe;
+  --t-text-muted: #7a8070;
+  --t-heading: #a8c8a0;
+  --t-accent: #88b480;
+  --t-accent-hover: #a0d098;
+  --t-link: #88b480;
+  --t-link-hover: #a0d098;
+  --t-border: #3a3e34;
+  --t-code-bg: #242820;
+  --t-code-text: #c8ccbe;
+  --t-code-border: #3a3e34;
+  --t-code-gutter-bg: #282c24;
+  --t-code-gutter-text: #5a6450;
+  --t-code-gutter-border: #3a3e34;
+  --t-inline-code-bg: #2c3028;
+  --t-inline-code-text: #88b480;
+  --t-sidebar-bg: #20241c;
+  --t-sidebar-text: #9aa08e;
+  --t-sidebar-active: #88b480;
+  --t-callout-bg: #282c24;
+  --t-callout-border: #4a6a44;
+  --t-table-header-bg: #282c24;
+  --t-table-stripe: #1e201a;
+  --t-syn-comment: #5a6450;
+  --t-syn-punctuation: #9aa08e;
+  --t-syn-property: #d4a860;
+  --t-syn-string: #80c870;
+  --t-syn-operator: #8a9a80;
+  --t-syn-keyword: #70a8d0;
+  --t-syn-function: #b080c8;
+  --t-syn-regex: #d0884a;
+}
+
+/* ================================================================== */
+/* Dusk — warm sunset amber, copper tones                              */
+/* ================================================================== */
+
+html.theme-dusk {
+  --t-bg: #faf5ef;
+  --t-bg-alt: #f0e8dd;
+  --t-text: #2e2418;
+  --t-text-muted: #6a5a48;
+  --t-heading: #5a3a1a;
+  --t-accent: #b87333;
+  --t-accent-hover: #96591e;
+  --t-link: #a06828;
+  --t-link-hover: #96591e;
+  --t-border: #d0c0a8;
+  --t-code-bg: #f0ebe2;
+  --t-code-text: #2e2418;
+  --t-code-border: #c8b898;
+  --t-code-gutter-bg: #e6dfd2;
+  --t-code-gutter-text: #8a7a60;
+  --t-code-gutter-border: #c8b898;
+  --t-inline-code-bg: #e8e0d0;
+  --t-inline-code-text: #7a5020;
+  --t-sidebar-bg: #f0e8dd;
+  --t-sidebar-text: #4a3e2e;
+  --t-sidebar-active: #b87333;
+  --t-callout-bg: #f0ebe2;
+  --t-callout-border: #c89858;
+  --t-table-header-bg: #e6dfd2;
+  --t-table-stripe: #f5f0e8;
+  --t-syn-comment: #8a7a60;
+  --t-syn-punctuation: #4a3e2e;
+  --t-syn-property: #986020;
+  --t-syn-string: #4a7a2e;
+  --t-syn-operator: #6a5a40;
+  --t-syn-keyword: #1a5a8a;
+  --t-syn-function: #7a3a6a;
+  --t-syn-regex: #a84020;
+}
+
+html.theme-dusk.dark-mode {
+  --t-bg: #1e1a16;
+  --t-bg-alt: #28221a;
+  --t-text: #d0c8b8;
+  --t-text-muted: #8a7a68;
+  --t-heading: #d8c0a0;
+  --t-accent: #d4a060;
+  --t-accent-hover: #e8b878;
+  --t-link: #d4a060;
+  --t-link-hover: #e8b878;
+  --t-border: #3e3428;
+  --t-code-bg: #262018;
+  --t-code-text: #d0c8b8;
+  --t-code-border: #3e3428;
+  --t-code-gutter-bg: #2a241c;
+  --t-code-gutter-text: #6a5a48;
+  --t-code-gutter-border: #3e3428;
+  --t-inline-code-bg: #302820;
+  --t-inline-code-text: #d4a060;
+  --t-sidebar-bg: #22201a;
+  --t-sidebar-text: #a09080;
+  --t-sidebar-active: #d4a060;
+  --t-callout-bg: #2a241c;
+  --t-callout-border: #6a5a3a;
+  --t-table-header-bg: #2a241c;
+  --t-table-stripe: #201c16;
+  --t-syn-comment: #6a5a48;
+  --t-syn-punctuation: #a09080;
+  --t-syn-property: #e0a860;
+  --t-syn-string: #80c068;
+  --t-syn-operator: #b09878;
+  --t-syn-keyword: #70a0d0;
+  --t-syn-function: #c080b0;
+  --t-syn-regex: #d88050;
+}
+
+/* ================================================================== */
 /* Vivid code highlighter — high-saturation syntax colors              */
 /* Overrides --t-syn-* for any theme when .code-vivid is on <html>.   */
 /* ================================================================== */

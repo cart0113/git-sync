@@ -311,6 +311,7 @@
             activateFolder(idx);
             var href = folderData[idx].firstHref;
             if (href) window.location.hash = href;
+            window.scrollTo(0, 0);
           });
         })(j);
 

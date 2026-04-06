@@ -21,17 +21,27 @@
  */
 
 (function () {
-  var DARK_KEY = 'doc-dark-mode';
-  var THEME_KEY = 'doc-theme';
-  var CODE_KEY = 'doc-code-highlighter';
+  var pfx = (window.location.pathname.replace(/\/+$/, '') || '') + ':';
+  var DARK_KEY = pfx + 'doc-dark-mode';
+  var THEME_KEY = pfx + 'doc-theme';
+  var CODE_KEY = pfx + 'doc-code-highlighter';
   var cfg = window.__docsifyExtConfig || {};
 
-  var THEMES = [
-    { id: 'parchment', label: 'Parchment', color: '#4a6591' },
-    { id: 'pylab', label: 'Pylab', color: '#2160bb' },
-    { id: 'blossom', label: 'Blossom', color: '#9668c4' },
-    { id: 'near-midnight', label: 'Near-Midnight', color: '#6c71c4' },
-  ];
+  var STYLE_THEMES = {
+    'code-one': [
+      { id: 'parchment', label: 'Parchment', color: '#4a6591' },
+      { id: 'pylab', label: 'Pylab', color: '#2160bb' },
+      { id: 'blossom', label: 'Blossom', color: '#9668c4' },
+      { id: 'near-midnight', label: 'Near-Midnight', color: '#6c71c4' },
+    ],
+    blog: [
+      { id: 'ink', label: 'Ink', color: '#333333' },
+      { id: 'sage', label: 'Sage', color: '#5a7a5a' },
+      { id: 'dusk', label: 'Dusk', color: '#b87333' },
+    ],
+  };
+
+  var THEMES = STYLE_THEMES[cfg.style] || STYLE_THEMES['code-one'];
 
   function svgUse(id) {
     return '<svg><use href="#' + id + '"/></svg>';
