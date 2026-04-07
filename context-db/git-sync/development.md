@@ -7,9 +7,9 @@ description: Development workflow — sync, snapshot, and init commands
 ## Running
 
 ```bash
-bin/git-sync sync      # sync all repos
-bin/git-sync snapshot   # update .git-sync.yaml with current commits
-bin/git-sync init       # install git hooks
+bin/git-sync.sh sync      # sync all repos
+bin/git-sync.sh snapshot   # update .git-sync.yaml with current commits
+bin/git-sync.sh init       # install git hooks
 ```
 
 ### sync
@@ -31,5 +31,5 @@ that runs sync. Appends to existing hooks rather than overwriting.
 
 ## Other Commands
 
-- `bin/git-sync status` — show sync state of all repos
-- `bin/git-sync uninit` — remove installed git hooks
+- `bin/git-sync.sh status` — show sync state of all repos
+- `bin/git-sync.sh uninit` — remove installed git hooks

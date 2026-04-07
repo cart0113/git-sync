@@ -4,25 +4,33 @@ description: How git-sync orchestrates clone, pull, checkout, and recursive sync
 
 # Architecture
 
-git-sync is a bash tool with a simple pipeline:
+git-sync is a single bash script (`bin/git-sync.sh`) with all logic inlined. No
+external dependencies beyond bash and git.
 
-## Entry Point
+## Sections
 
-`bin/git-sync` is the CLI. It sources all lib/ files and dispatches to commands:
-sync, snapshot, init, uninit, status.
+The script is organized into clearly marked sections:
 
-## Config Layer (lib/config.sh)
+- **Config** — pure awk parsing of `.git-sync.yaml`. Functions: `config_get`,
+  `config_set`, `config_list_repos`, `config_get_list`,
+  `config_get_with_default`, `config_get_setting_with_default`.
+- **Gitignore** — auto-adds repo paths to `.gitignore`.
+- **Sync** — clone, fetch, checkout, pull. Handles both sync modes and recursive
+  sync into sub-repos.
+- **Snapshot** — records current branch/commit back into config. Handles
+  auto-commit and push of dirty sub-repos.
+- **Hooks** — installs/removes pre-commit (snapshot) and post-merge (sync) git
+  hooks.
+- **CLI** — usage, status display, argument parsing, command dispatch.
 
-All config access goes through `config_get`, `config_set`, `config_get_list`,
-`config_list_repos`. These use pure awk to read/write `.git-sync.yaml`. The
-config file path is resolved dynamically via `git rev-parse --show-toplevel`,
-which is critical for recursive sync — when operating inside a sub-repo, git
-finds that repo's root, not the parent's.
+## Config Parsing
 
-`config_get_list` handles YAML list fields (like `sparse-paths`) by returning
-newline-separated values.
+Config access uses pure awk — no yq or other tools. The config file path is
+resolved dynamically via `git rev-parse --show-toplevel`, which is critical for
+recursive sync — when operating inside a sub-repo, git finds that repo's root,
+not the parent's.
 
-## Sync Layer (lib/sync.sh)
+## Sync Pipeline
 
 `sync_all` iterates repos from config. For each repo, `sync_repo`:
 
@@ -37,13 +45,13 @@ newline-separated values.
 Recursion uses a subshell with a depth counter (max 10) to prevent infinite
 loops.
 
-## Snapshot Layer (lib/snapshot.sh)
+## Snapshot Pipeline
 
 `snapshot_all` iterates repos and for each, reads the current branch and HEAD
 commit from the actual cloned repo and writes them back into .git-sync.yaml.
 Repos with `read-only: true` are skipped entirely.
 
-## Hook Layer (lib/hooks.sh)
+## Hook Installation
 
 Installs pre-commit (runs snapshot) and post-merge (runs sync) hooks. Appends to
 existing hooks rather than overwriting.

@@ -15,7 +15,7 @@ Two sync modes:
 - **update-branch** — track a branch, pull latest on sync
 - **checkout-commit** — pin to an exact commit or tag for reproducible builds
 
-Only requires `bash` and `git`. No other dependencies.
+Only requires `bash` and `git`. No other dependencies. It's one file.
 
 ## Why not git submodule?
 
@@ -35,16 +35,15 @@ The problems are well documented:
   portability
 
 This is not meant to be an exhaustive substitute for git submodule; rather, this
-is a focused tool that covers common work patterns, in bash scripts that are
+is a focused tool that covers common work patterns, in a bash script that is
 easy to read and fix when something goes wrong.
 
 ## Quick Start
 
-### 1. Copy `bin/` and `lib/` into your project
+### 1. Copy `bin/git-sync.sh` into your project
 
 ```bash
-# From a git-sync clone, or download from GitHub
-cp -r git-sync/bin git-sync/lib your-project/
+cp git-sync/bin/git-sync.sh your-project/bin/
 ```
 
 ### 2. Create `.git-sync.yaml`
@@ -61,8 +60,8 @@ my-dependency:
 ### 3. Sync and install hooks
 
 ```bash
-bin/git-sync sync
-bin/git-sync init
+bin/git-sync.sh sync
+bin/git-sync.sh init
 ```
 
 With hooks installed, `git-sync snapshot` runs on commit (recording dependency
@@ -77,17 +76,5 @@ state) and `git-sync sync` runs on pull (updating dependencies).
 | `git-sync init`     | Install git hooks for automatic sync/snapshot                     |
 | `git-sync uninit`   | Remove git-sync hooks                                             |
 | `git-sync status`   | Show the current state of all managed repos                       |
-
-## Structure
-
-```
-bin/git-sync          Main entry point
-lib/config.sh         Config parsing (pure bash/awk)
-lib/sync.sh           Clone, pull, checkout operations
-lib/snapshot.sh       Record current state back to config
-lib/hooks.sh          Git hook installation
-lib/gitignore.sh      .gitignore management
-templates/            Sample AGENTS.md and skills for LLM integration
-```
 
 Full docs: https://cart0113.github.io/git-sync/
