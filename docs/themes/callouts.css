@@ -1,0 +1,281 @@
+/*
+ * callouts.css — styled alert boxes.
+ *
+ * Works with both code-one and blog styles. Colors adapt to dark mode.
+ * Types: note (blue), tip (green), important (amber), warning (red).
+ */
+
+/* ------------------------------------------------------------------ */
+/* Base callout                                                        */
+/* ------------------------------------------------------------------ */
+
+.callout {
+  border-radius: 5px;
+  padding: 1.2em 1.5em;
+  margin: 1.5em 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid;
+}
+
+.callout p {
+  margin: 0 0 0.5em;
+}
+
+.callout p:last-child {
+  margin-bottom: 0;
+}
+
+.callout-title {
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  font-weight: 600;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.6em;
+}
+
+/* ------------------------------------------------------------------ */
+/* Tip — green (inspired by NBA Comeback Dashboard)                    */
+/* ------------------------------------------------------------------ */
+
+.callout-tip {
+  background: #d7edda;
+  border-left-color: #5cb85c;
+}
+
+.callout-tip .callout-title {
+  color: #367a36;
+}
+
+.callout-tip p {
+  color: #555555;
+  font-style: italic;
+}
+
+html.dark-mode .callout-tip {
+  background: #1a2e1c;
+  border-left-color: #4a9a4a;
+}
+
+html.dark-mode .callout-tip .callout-title {
+  color: #6aba6a;
+}
+
+html.dark-mode .callout-tip p {
+  color: #a8b0a0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Note — blue/info                                                    */
+/* ------------------------------------------------------------------ */
+
+.callout-note {
+  background: #dae8f5;
+  border-left-color: #4a8ac4;
+}
+
+.callout-note .callout-title {
+  color: #2a5a8a;
+}
+
+.callout-note p {
+  color: #555555;
+}
+
+html.dark-mode .callout-note {
+  background: #1a2430;
+  border-left-color: #4a80b0;
+}
+
+html.dark-mode .callout-note .callout-title {
+  color: #6aa0d0;
+}
+
+html.dark-mode .callout-note p {
+  color: #a0a8b0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Important — amber                                                   */
+/* ------------------------------------------------------------------ */
+
+.callout-important {
+  background: #fef3cd;
+  border-left-color: #d4a020;
+}
+
+.callout-important .callout-title {
+  color: #8a6a10;
+}
+
+.callout-important p {
+  color: #555555;
+}
+
+html.dark-mode .callout-important {
+  background: #2a2410;
+  border-left-color: #b89020;
+}
+
+html.dark-mode .callout-important .callout-title {
+  color: #d4b040;
+}
+
+html.dark-mode .callout-important p {
+  color: #a8a090;
+}
+
+/* ------------------------------------------------------------------ */
+/* Warning — red                                                       */
+/* ------------------------------------------------------------------ */
+
+.callout-warning {
+  background: #f8d7da;
+  border-left-color: #d45050;
+}
+
+.callout-warning .callout-title {
+  color: #8a2020;
+}
+
+.callout-warning p {
+  color: #555555;
+}
+
+html.dark-mode .callout-warning {
+  background: #2a1a1a;
+  border-left-color: #b04040;
+}
+
+html.dark-mode .callout-warning .callout-title {
+  color: #d06060;
+}
+
+html.dark-mode .callout-warning p {
+  color: #b0a0a0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Success — green (stronger than tip, for confirmed outcomes)         */
+/* ------------------------------------------------------------------ */
+
+.callout-success {
+  background: #d4edda;
+  border-left-color: #28a745;
+}
+
+.callout-success .callout-title {
+  color: #1e7e34;
+}
+
+.callout-success p {
+  color: #555555;
+}
+
+html.dark-mode .callout-success {
+  background: #162b19;
+  border-left-color: #28a745;
+}
+
+html.dark-mode .callout-success .callout-title {
+  color: #48c864;
+}
+
+html.dark-mode .callout-success p {
+  color: #a0b0a0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Danger — deep red (stronger than warning, for critical issues)      */
+/* ------------------------------------------------------------------ */
+
+.callout-danger {
+  background: #f5c6cb;
+  border-left-color: #c0392b;
+}
+
+.callout-danger .callout-title {
+  color: #922b21;
+}
+
+.callout-danger p {
+  color: #555555;
+}
+
+html.dark-mode .callout-danger {
+  background: #2e1215;
+  border-left-color: #a93226;
+}
+
+html.dark-mode .callout-danger .callout-title {
+  color: #e06050;
+}
+
+html.dark-mode .callout-danger p {
+  color: #b0a0a0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Example — purple                                                    */
+/* ------------------------------------------------------------------ */
+
+.callout-example {
+  background: #e8def8;
+  border-left-color: #7e57c2;
+}
+
+.callout-example .callout-title {
+  color: #5e3d82;
+}
+
+.callout-example p {
+  color: #555555;
+}
+
+html.dark-mode .callout-example {
+  background: #1e1830;
+  border-left-color: #7e57c2;
+}
+
+html.dark-mode .callout-example .callout-title {
+  color: #a07ee0;
+}
+
+html.dark-mode .callout-example p {
+  color: #a8a0b8;
+}
+
+/* ------------------------------------------------------------------ */
+/* Quote — gray, for attributed quotes                                 */
+/* ------------------------------------------------------------------ */
+
+.callout-quote {
+  background: #eaeaea;
+  border-left-color: #888888;
+}
+
+.callout-quote .callout-title {
+  color: #666666;
+}
+
+.callout-quote p {
+  color: #555555;
+  font-style: italic;
+}
+
+html.dark-mode .callout-quote {
+  background: #222222;
+  border-left-color: #666666;
+}
+
+html.dark-mode .callout-quote .callout-title {
+  color: #999999;
+}
+
+html.dark-mode .callout-quote p {
+  color: #a0a0a0;
+}

@@ -578,6 +578,7 @@ section.content {
     sans-serif;
   font-size: 0.9em;
   border-collapse: collapse;
+  display: table;
   width: 100%;
 }
 

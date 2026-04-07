@@ -15,6 +15,7 @@ window.__docsifyExtConfig = {
   search_style: 'magnify-glass',
   sidebar_indent: '1em',
   site_icon: 'assets/git-sync-icon.svg',
+  katex: false,
   social_links: {
     github: 'https://github.com/cart0113/git-sync',
   },

@@ -1,0 +1,203 @@
+/*
+ * blog — editorial style for bruha.
+ *
+ * Serif typography, wider reading column, literary feel.
+ * All rules scoped under html.style-blog so code-one is unaffected.
+ * Layers on code-one.css (overrides its defaults).
+ */
+
+/* ------------------------------------------------------------------ */
+/* Body & base — serif stack, no accent stripe                         */
+/* ------------------------------------------------------------------ */
+
+html.style-blog body {
+  font-family: Georgia, Charter, 'Bitstream Charter', 'Noto Serif',
+    Cambria, 'Times New Roman', serif;
+  font-size: 18px;
+  line-height: 1.85;
+}
+
+html.style-blog body::before {
+  display: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Sidebar — keep sans-serif for navigation clarity                    */
+/* ------------------------------------------------------------------ */
+
+html.style-blog .sidebar .app-name-link {
+  font-family: Georgia, Charter, 'Bitstream Charter', serif;
+  font-size: 1.35em;
+  letter-spacing: -0.03em;
+}
+
+html.style-blog .sidebar-nav li > a {
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  font-size: 1.05em;
+  font-weight: 500;
+}
+
+html.style-blog .sidebar-nav ul ul li > a {
+  font-size: 13.5px;
+  font-weight: 400;
+}
+
+/* ------------------------------------------------------------------ */
+/* Main content — narrower for reading comfort                         */
+/* ------------------------------------------------------------------ */
+
+html.style-blog .markdown-section {
+  max-width: 42rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Typography — serif, editorial treatment                             */
+/* ------------------------------------------------------------------ */
+
+html.style-blog .markdown-section h1 {
+  font-family: Georgia, Charter, 'Bitstream Charter', 'Noto Serif',
+    Cambria, serif;
+  font-size: 2.6em;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  margin-bottom: 0.3em;
+  line-height: 1.15;
+}
+
+html.style-blog .markdown-section h2 {
+  font-family: Georgia, Charter, 'Bitstream Charter', 'Noto Serif',
+    Cambria, serif;
+  font-size: 1.5em;
+  font-weight: 700;
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-top: 2.4em;
+  margin-bottom: 0.6em;
+  letter-spacing: -0.02em;
+}
+
+html.style-blog .markdown-section h3 {
+  font-family: Georgia, Charter, 'Bitstream Charter', 'Noto Serif',
+    Cambria, serif;
+  font-size: 1.15em;
+  font-weight: 700;
+  margin-top: 1.8em;
+  letter-spacing: -0.01em;
+}
+
+html.style-blog .markdown-section p {
+  margin-bottom: 1.4em;
+}
+
+html.style-blog .markdown-section a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+html.style-blog .markdown-section strong {
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------------------ */
+/* Code — softer treatment, no left accent bar                         */
+/* ------------------------------------------------------------------ */
+
+html.style-blog .markdown-section pre {
+  border-left: 1px solid var(--t-code-border) !important;
+  border-radius: 6px;
+}
+
+html.style-blog .markdown-section code {
+  font-size: 0.8em;
+}
+
+/* ------------------------------------------------------------------ */
+/* Blockquotes — literary feel                                         */
+/* ------------------------------------------------------------------ */
+
+html.style-blog .markdown-section blockquote {
+  border-left: 3px solid var(--t-callout-border);
+  font-style: italic;
+  padding: 0.8em 1.5em;
+  border-radius: 0 6px 6px 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Tables — softer                                                     */
+/* ------------------------------------------------------------------ */
+
+html.style-blog .markdown-section table {
+  font-family: Georgia, Charter, 'Bitstream Charter', serif;
+  font-size: 0.88em;
+}
+
+html.style-blog .markdown-section th {
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  font-size: 0.75em;
+}
+
+/* ------------------------------------------------------------------ */
+/* Top nav — serif brand title                                         */
+/* ------------------------------------------------------------------ */
+
+html.style-blog .ext-top-brand-title {
+  font-family: Georgia, Charter, 'Bitstream Charter', serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  font-size: 1.6em;
+}
+
+/* ------------------------------------------------------------------ */
+/* Published date — small uppercase sans-serif below h1                */
+/* ------------------------------------------------------------------ */
+
+.published-date {
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  font-size: 0.7em;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--t-text-muted);
+  margin-top: -0.8em;
+  margin-bottom: 2.2em;
+}
+
+/* ------------------------------------------------------------------ */
+/* Lists — slightly more generous for reading                          */
+/* ------------------------------------------------------------------ */
+
+html.style-blog .markdown-section li {
+  margin-bottom: 0.5em;
+  line-height: 1.75;
+}
+
+/* ------------------------------------------------------------------ */
+/* HR — lighter                                                        */
+/* ------------------------------------------------------------------ */
+
+html.style-blog .markdown-section hr {
+  border-top: 1px solid color-mix(in srgb, var(--t-border) 60%, transparent);
+  margin: 3em 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Mobile — serif brand in mobile header                               */
+/* ------------------------------------------------------------------ */
+
+html.style-blog .mobile-header-title {
+  font-family: Georgia, Charter, 'Bitstream Charter', serif;
+  letter-spacing: -0.02em;
+}
