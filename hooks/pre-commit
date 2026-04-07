@@ -1,13 +1,51 @@
 #!/usr/bin/env bash
-set -euo pipefail
+#
+# pre-commit — Format staged files.
+#
+# Runs:
+#   1. prettier on staged md/js/ts/json/css/yaml files
+#   2. ruff on staged python files
+#
+# Install:
+#   cp hooks/pre-commit .git/hooks/pre-commit
+#   chmod +x .git/hooks/pre-commit
+
+set -eo pipefail
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
+cd "$REPO_ROOT"
 
-# ── Cache-bust docs/index.html ──────────────────────────────────────────────
+# ── 1. Prettier on staged web/markdown files ────────────────────────────────
 
-DOCS_DIR="${REPO_ROOT}/docs"
-if [ -f "${DOCS_DIR}/index.html" ] && git diff --cached --name-only | grep -qE '^docs/'; then
-    STAMP=$(date +%Y%m%d%H%M%S)
-    sed -i '' "s/?v=[0-9a-zA-Z]*/?v=${STAMP}/g" "${DOCS_DIR}/index.html"
-    git add "${DOCS_DIR}/index.html"
+PRETTIER="./node_modules/.bin/prettier"
+if [ -x "$PRETTIER" ]; then
+    PRETTIER_FILES=$(git diff --cached --name-only --diff-filter=ACM \
+        | grep -E '\.(md|js|ts|jsx|tsx|json|css|html|yaml|yml)$' \
+        || true)
+
+    if [ -n "$PRETTIER_FILES" ]; then
+        echo "$PRETTIER_FILES" | while IFS= read -r file; do
+            [ -f "$file" ] || continue
+            "$PRETTIER" --write "$file" 2>/dev/null || true
+            git add "$file" 2>/dev/null || true
+        done
+    fi
+fi
+
+# ── 2. Ruff on staged Python files ──────────────────────────────────────────
+
+RUFF="$(command -v ruff-main 2>/dev/null || true)"
+if [ -n "$RUFF" ]; then
+    PY_FILES=$(git diff --cached --name-only --diff-filter=ACM \
+        | grep -E '\.py$' \
+        || true)
+
+    if [ -n "$PY_FILES" ]; then
+        echo "$PY_FILES" | while IFS= read -r file; do
+            [ -f "$file" ] || continue
+            "$RUFF" format "$file" 2>/dev/null || true
+            "$RUFF" check --fix "$file" 2>/dev/null || true
+            git add "$file" 2>/dev/null || true
+        done
+    fi
 fi

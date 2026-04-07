@@ -5,7 +5,9 @@
 /.git-sync-private.yaml
 /external
 /context-db/coding-standards/general-coding-standards
+/context-db/writing-standards
 /context-db/using-bruha
+/context-db/agent-behavior
 
 # Added by git-sync
 /external/git-standards

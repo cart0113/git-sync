@@ -4,3 +4,5 @@
   - [Usage Guide](guide/usage.md)
 - **Reference**
   - [Configuration Reference](reference/configuration.md)
+- **Notes**
+  - [vs Package Managers](notes/vs-package-managers.md)
