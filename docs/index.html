@@ -7,8 +7,8 @@
     <script>
       (function () {
         var h = window.location.hash;
-        if (!h || h === "#/" || h === "#/README") {
-          window.location.hash = "#/overview/overview";
+        if (!h || h === '#/' || h === '#/README') {
+          window.location.hash = '#/overview/overview';
         }
       })();
     </script>
@@ -37,23 +37,23 @@
       href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css"
     />
     <!-- theme -->
-    <link rel="stylesheet" href="themes/code-one.css?v=20260406095436" />
+    <link rel="stylesheet" href="themes/code-one.css?v=20260406224354" />
     <!-- color theme overrides (light + dark variants) -->
-    <link rel="stylesheet" href="themes/color-themes.css?v=20260406095436" />
+    <link rel="stylesheet" href="themes/color-themes.css?v=20260406224354" />
     <!-- extension styles -->
-    <link rel="stylesheet" href="themes/bruha.css?v=20260406095436" />
+    <link rel="stylesheet" href="themes/bruha.css?v=20260406224354" />
     <!-- mobile responsive layout -->
-    <link rel="stylesheet" href="themes/mobile-nav.css?v=20260406095436" />
+    <link rel="stylesheet" href="themes/mobile-nav.css?v=20260406224354" />
     <!-- generated config (applies CSS classes before render) -->
-    <script src="themes/bruha-config.js?v=20260406095436"></script>
+    <script src="themes/bruha-config.js?v=20260406224354"></script>
     <!-- theme controls (applies saved choice before render) -->
-    <script src="themes/theme-controls.js?v=20260406095436"></script>
-    <script src="themes/code-enhancements.js?v=20260406095436"></script>
-    <script src="themes/sidebar-indicator.js?v=20260406095436"></script>
-    <script src="themes/collapsible-folders.js?v=20260406095436"></script>
-    <script src="themes/mobile-nav.js?v=20260406095436"></script>
-    <script src="themes/top-nav.js?v=20260406095436"></script>
-    <script src="themes/folder-redirect.js?v=20260406095436"></script>
+    <script src="themes/theme-controls.js?v=20260406224354"></script>
+    <script src="themes/code-enhancements.js?v=20260406224354"></script>
+    <script src="themes/sidebar-indicator.js?v=20260406224354"></script>
+    <script src="themes/collapsible-folders.js?v=20260406224354"></script>
+    <script src="themes/mobile-nav.js?v=20260406224354"></script>
+    <script src="themes/top-nav.js?v=20260406224354"></script>
+    <script src="themes/folder-redirect.js?v=20260406224354"></script>
   </head>
   <body>
     <!-- SVG sprite — hidden, reused via <use href="#icon-name"/> -->
@@ -164,24 +164,24 @@
     <script>
       var cfg = window.__docsifyExtConfig;
       window.$docsify = {
-        name: "git-sync",
-        nameLink: "#/overview/overview",
-        basePath: "src/",
-        repo: cfg.github_corner ? "https://github.com/cart0113/git-sync" : "",
+        name: 'git-sync',
+        nameLink: '#/overview/overview',
+        basePath: 'src/',
+        repo: cfg.github_corner ? 'https://github.com/cart0113/git-sync' : '',
         loadSidebar: true,
         subMaxLevel: cfg.document_header_depth,
         auto2top: true,
         topMargin: cfg.top_level_folders_as_top_control ? 75 : 0,
         search: {
-          placeholder: "Search docs",
-          noData: "No results.",
+          placeholder: 'Search docs',
+          noData: 'No results.',
           depth: 3,
           hideOtherSidebarContent: false,
         },
         plugins: [
           codeEnhancementsPlugin,
           collapsibleFoldersPlugin,
-          cfg.theme_controls !== "none" ? themeControlsPlugin : null,
+          cfg.theme_controls !== 'none' ? themeControlsPlugin : null,
           cfg.document_inline_sidebar_selector || cfg.page_section_collapsible
             ? sidebarIndicatorPlugin
             : null,
