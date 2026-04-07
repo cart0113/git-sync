@@ -1,4 +1,2 @@
 - overview
-- guide
 - reference
-- notes

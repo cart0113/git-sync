@@ -21,12 +21,14 @@ root to declare external repos, their target paths, and sync behavior.
 
 ```
 bin/git-sync          # main entry point
-lib/config.sh         # YAML config parsing (requires yq)
+lib/config.sh         # config parsing (pure bash/awk)
 lib/sync.sh           # clone, pull, checkout operations
+lib/snapshot.sh       # record current state back to config
 lib/hooks.sh          # git hook installation/management
 lib/gitignore.sh      # .gitignore management
+templates/            # sample AGENTS.md and skills for LLM integration
 context-db/           # project knowledge database
-docs/                 # GitHub Pages documentation (bruha/docsify)
+docs/                 # GitHub Pages documentation (bruha)
 examples/             # example .git-sync.yaml files
 ```
 
@@ -39,4 +41,5 @@ bash 4+.
 
 - `bash` 4+
 - `git`
-- `yq` (for YAML parsing) - https://github.com/mikefarah/yq
+
+No other dependencies. Config parsing uses pure bash/awk.

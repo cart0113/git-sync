@@ -1,8 +1,4 @@
 - **Overview**
   - [git-sync](overview/overview.md)
-- **Guide**
-  - [Usage Guide](guide/usage.md)
 - **Reference**
-  - [Configuration Reference](reference/configuration.md)
-- **Notes**
-  - [vs Package Managers](notes/vs-package-managers.md)
+  - [Reference](reference/configuration.md)

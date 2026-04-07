@@ -52,8 +52,6 @@ EOF
 }
 
 cmd_status() {
-    check_yq_installed || return 1
-
     local config_files
     config_files=$(all_config_files)
 
@@ -117,8 +115,6 @@ cmd_status() {
 }
 
 main() {
-    check_yq_installed || exit 1
-
     local command="${1:-help}"
 
     case "$command" in

@@ -14,10 +14,10 @@ sync, snapshot, init, uninit, status.
 ## Config Layer (lib/config.sh)
 
 All config access goes through `config_get`, `config_set`, `config_get_list`,
-`config_list_repos`. These use `yq` to read/write `.git-sync.yaml`. The config
-file path is resolved dynamically via `git rev-parse --show-toplevel`, which is
-critical for recursive sync — when operating inside a sub-repo, git finds that
-repo's root, not the parent's.
+`config_list_repos`. These use pure awk to read/write `.git-sync.yaml`. The
+config file path is resolved dynamically via `git rev-parse --show-toplevel`,
+which is critical for recursive sync — when operating inside a sub-repo, git
+finds that repo's root, not the parent's.
 
 `config_get_list` handles YAML list fields (like `sparse-paths`) by returning
 newline-separated values.
