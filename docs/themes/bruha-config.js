@@ -27,8 +27,8 @@ window.__docsifyExtConfig = {
 };
 (function (c) {
   document.documentElement.classList.add('theme-' + c.light_theme);
-  if (!c.hamburger_menu)
-    document.documentElement.classList.add('ext-no-hamburger');
+  document.documentElement.classList.add('ext-no-hamburger');
+  if (c.hamburger_menu) document.documentElement.classList.add('ext-hamburger');
   if (!c.github_corner)
     document.documentElement.classList.add('ext-no-github-corner');
   document.documentElement.classList.add('ext-has-top-nav');

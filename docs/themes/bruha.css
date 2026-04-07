@@ -18,6 +18,61 @@ html.ext-no-github-corner .github-corner {
 }
 
 /* ------------------------------------------------------------------ */
+/* Custom hamburger toggle — inside brand area, toggles sidebar       */
+/* ------------------------------------------------------------------ */
+
+.ext-top-hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  margin-left: auto;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: var(--t-sidebar-text);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s, background 0.15s;
+}
+
+html.ext-hamburger .ext-top-hamburger {
+  display: flex;
+}
+
+.ext-top-hamburger:hover {
+  color: var(--t-accent);
+  background: color-mix(in srgb, var(--t-accent) 10%, transparent);
+}
+
+.ext-top-hamburger svg {
+  stroke: currentColor;
+  fill: none;
+}
+
+/* --- Sidebar collapsed state --- */
+
+html.ext-sidebar-collapsed .sidebar {
+  display: none !important;
+}
+
+@media screen and (min-width: 769px) {
+  html.ext-sidebar-collapsed section.content {
+    left: 0 !important;
+  }
+
+  html.ext-sidebar-collapsed .ext-top-nav {
+    grid-template-columns: auto 1fr auto auto auto;
+  }
+
+  html.ext-sidebar-collapsed .ext-top-brand {
+    width: auto;
+    min-width: 0;
+  }
+}
+
+/* ------------------------------------------------------------------ */
 /* Kill vue.css dash markers on sub-sidebar items                      */
 /* vue.css: .app-sub-sidebar li:before { content: "-" }               */
 /* ------------------------------------------------------------------ */

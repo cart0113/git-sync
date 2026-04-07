@@ -294,6 +294,29 @@
       ? nameLink.textContent.trim()
       : 'bruha';
     brand.appendChild(title);
+
+    if (cfg.hamburger_menu) {
+      var hamburger = document.createElement('button');
+      hamburger.className = 'ext-top-hamburger';
+      hamburger.title = 'Toggle sidebar';
+      hamburger.innerHTML =
+        '<svg viewBox="0 0 24 24" width="20" height="20"><use href="#icon-hamburger"/></svg>';
+      hamburger.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.documentElement.classList.toggle('ext-sidebar-collapsed');
+        var collapsed = document.documentElement.classList.contains('ext-sidebar-collapsed');
+        try { localStorage.setItem(window.location.pathname + ':sidebar-collapsed', collapsed); } catch (_) {}
+      });
+      /* Restore saved state */
+      try {
+        if (localStorage.getItem(window.location.pathname + ':sidebar-collapsed') === 'true') {
+          document.documentElement.classList.add('ext-sidebar-collapsed');
+        }
+      } catch (_) {}
+      brand.appendChild(hamburger);
+    }
+
     topNavEl.appendChild(brand);
 
     /* --- Center: nav tabs (only when there are folders) --- */
