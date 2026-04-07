@@ -27,8 +27,8 @@ files.
 
 ## Frontmatter must stay current
 
-After ANY change — new file, edit, rename, delete — ensure every affected
-file's `description` accurately reflects its content. Stale descriptions
-actively mislead future agents. This is the most important maintenance rule.
+After ANY change — new file, edit, rename, delete — ensure every affected file's
+`description` accurately reflects its content. Stale descriptions actively
+mislead future agents. This is the most important maintenance rule.
 
 Optional: `status: draft | stable | deprecated` (default: `stable`).
