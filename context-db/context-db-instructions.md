@@ -31,4 +31,10 @@ After ANY change — new file, edit, rename, delete — ensure every affected fi
 `description` accurately reflects its content. Stale descriptions actively
 mislead future agents. This is the most important maintenance rule.
 
+## Keep folders small
+
+Each folder should contain 5–10 items. If a folder grows beyond that, refactor
+it — split content into subfolders to add hierarchy. This keeps each TOC short
+so the agent reads logarithmically relative to the total database size.
+
 Optional: `status: draft | stable | deprecated` (default: `stable`).
