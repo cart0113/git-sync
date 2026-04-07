@@ -33,21 +33,37 @@ read_field() {
     local val
     val=$(awk -v key="$field" '
         /^---$/ { fc++; next }
+        fc == 1 && found && /^[[:space:]]/ {
+            sub(/^[[:space:]]+/, "")
+            if (val != "") val = val " "
+            val = val $0
+            next
+        }
+        fc == 1 && found { gsub(/^["'"'"']|["'"'"']$/, "", val); print val; done=1; exit }
         fc == 1 && $0 ~ "^" key ":" {
             sub("^" key ":[[:space:]]*", "")
-            gsub(/^["'"'"']|["'"'"']$/, "")
-            print; exit
+            if ($0 != "") { gsub(/^["'"'"']|["'"'"']$/, ""); print; done=1; exit }
+            found = 1; val = ""
         }
-        fc >= 2 { exit }
+        fc >= 2 { if (found) { gsub(/^["'"'"']|["'"'"']$/, "", val); print val }; done=1; exit }
+        END { if (!done && found) { gsub(/^["'"'"']|["'"'"']$/, "", val); print val } }
     ' "$file")
     [ -z "$val" ] && val=$(awk -v key="$field" '
         /^```yaml description/ { in_b=1; next }
-        in_b && /^```/ { exit }
+        in_b && /^```/ { if (found) { gsub(/^["'"'"']|["'"'"']$/, "", val); print val }; done=1; exit }
+        in_b && found && /^[[:space:]]/ {
+            sub(/^[[:space:]]+/, "")
+            if (val != "") val = val " "
+            val = val $0
+            next
+        }
+        in_b && found { gsub(/^["'"'"']|["'"'"']$/, "", val); print val; done=1; exit }
         in_b && $0 ~ "^" key ":" {
             sub("^" key ":[[:space:]]*", "")
-            gsub(/^["'"'"']|["'"'"']$/, "")
-            print; exit
+            if ($0 != "") { gsub(/^["'"'"']|["'"'"']$/, ""); print; done=1; exit }
+            found = 1; val = ""
         }
+        END { if (!done && found) { gsub(/^["'"'"']|["'"'"']$/, "", val); print val } }
     ' "$file")
     echo "$val"
 }
