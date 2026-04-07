@@ -21,7 +21,7 @@ else
     exit 1
 fi
 
-PYTHONPATH="$BRUHA_PY" python-main -c "
+PYTHONPATH="$BRUHA_PY" python3 -c "
 import bruha.docsify_ext_config as cfg
 import bruha.sidebar_builder as sb
 config = cfg.load_config('$DOCS_DIR')

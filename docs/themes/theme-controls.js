@@ -1,7 +1,7 @@
 /*
  * Theme controls — bottom-right UI for dark mode, theme, and code style.
  *
- * Config key: theme_controls (in bruha.yaml)
+ * Config key: theme_controls (in bruha.json)
  *   "none"         — no controls
  *   "dark_toggle"  — moon/sun button for light/dark
  *   "theme_picker" — palette button opening panel with theme swatches,
@@ -234,7 +234,7 @@
         wrap.querySelectorAll('.tc-swatch').forEach(function (b) {
           b.classList.toggle(
             'tc-active',
-            b.getAttribute('data-theme') === currentTheme
+            b.getAttribute('data-theme') === currentTheme,
           );
         });
       });
