@@ -1,20 +1,22 @@
 #!/usr/bin/env bash
 #
-# show_toc.sh — Print the table of contents for a context-db folder to stdout.
+# show_toc.sh — Print the table of contents for any folder to stdout.
+#
+# Scans a directory for Markdown files with YAML frontmatter `description`
+# fields and prints them as a TOC. No gate checks — works on any folder.
 #
 # Usage:
-#   bin/show_toc.sh context-db/                     Top-level TOC
-#   bin/show_toc.sh context-db/some-folder/         Subfolder TOC
+#   show_toc.sh context-db/                     Top-level TOC
+#   show_toc.sh context-db/some-folder/         Subfolder TOC
 #
-# The agent calls this on the root context-db/ folder first, then recursively
-# on subfolders as it navigates deeper — same browsing pattern as reading
-# static -toc.md files, but generated on the fly so symlinked/private folders
-# appear automatically without committing anything.
+# Subfolders are listed if they contain <folder-name>.md with frontmatter.
+# Files are listed if they have a `description` in their frontmatter.
+# Files named <dirname>.md are skipped (they are folder descriptions).
 #
-# Output format matches the existing -toc.md format:
+# Output format:
 #   ## Subfolders
 #   - description: ...
-#     path: subfolder/subfolder-toc.md
+#     path: subfolder/
 #
 #   ## Files
 #   - description: ...
@@ -23,8 +25,6 @@
 # Requirements: bash 3.2+, awk
 
 set -eo pipefail
-
-DESC_NAMES="SKILL.md CONTEXT.md AGENT.md AGENTS.md"
 
 # ── Parsing ───────────────────────────────────────────────────────────────────
 
@@ -71,18 +71,6 @@ read_field() {
 read_desc() { read_field "$1" "description"; }
 read_status() { read_field "$1" "status"; }
 
-find_desc_file() {
-    local dir="$1" name
-    name=$(basename "$(cd "$dir" && pwd -P)")
-    [ -f "$dir/${name}.md" ] && { echo "$dir/${name}.md"; return 0; }
-    [ -f "$dir/${name}-instructions.md" ] && { echo "$dir/${name}-instructions.md"; return 0; }
-    local f
-    for f in $DESC_NAMES; do
-        [ -f "$dir/$f" ] && { echo "$dir/$f"; return 0; }
-    done
-    return 1
-}
-
 should_skip() {
     case "$1" in _*|.*) return 0 ;; esac
     return 1
@@ -100,17 +88,7 @@ main() {
         exit 1
     fi
 
-    local desc_file
-    desc_file=$(find_desc_file "$dir") || {
-        echo "Error: '$dir' is not a context-db folder (no description file found)" >&2
-        exit 1
-    }
-
-    local foldername desc_fname
-    foldername=$(basename "$dir")
-    desc_fname=$(basename "$desc_file")
-
-    # Subfolder entries
+    # Subfolder entries — look for <subfolder>/<subfolder>.md
     local folder_lines=""
     for subdir in "$dir"/*/; do
         [ -d "$subdir" ] || continue
@@ -118,32 +96,35 @@ main() {
         subname=$(basename "$subdir")
         should_skip "$subname" && continue
 
-        local sub_desc
-        sub_desc=$(find_desc_file "$subdir") || continue
+        local sub_desc_file="$subdir/${subname}.md"
+        [ -f "$sub_desc_file" ] || continue
 
         local sdesc sstatus
-        sdesc=$(read_desc "$sub_desc")
+        sdesc=$(read_desc "$sub_desc_file")
         [ -z "$sdesc" ] && sdesc="(no description)"
-        sstatus=$(read_status "$sub_desc")
+        sstatus=$(read_status "$sub_desc_file")
         if [ -n "$sstatus" ] && [ "$sstatus" != "stable" ]; then
             sdesc="${sdesc} [${sstatus}]"
         fi
-        folder_lines="${folder_lines}"$'\n'"- description: ${sdesc}"$'\n'"  path: ${subname}/${subname}-toc.md"
+        folder_lines="${folder_lines}"$'\n'"- description: ${sdesc}"$'\n'"  path: ${subname}/"
     done
 
-    # File entries (skip description file and any existing toc file)
+    # File entries — any .md with frontmatter, skip <dirname>.md (folder desc)
+    local dirname
+    dirname=$(basename "$(cd "$dir" && pwd -P)")
     local file_lines=""
     for md_file in "$dir"/*.md; do
         [ -f "$md_file" ] || continue
         local fname
         fname=$(basename "$md_file")
-        [ "$fname" = "$desc_fname" ] && continue
-        [ "$fname" = "${foldername}-toc.md" ] && continue
+        [ "$fname" = "${dirname}.md" ] && continue
         should_skip "$fname" && continue
 
-        local fdesc fstatus
+        local fdesc
         fdesc=$(read_desc "$md_file")
-        [ -z "$fdesc" ] && fdesc="(no description)"
+        [ -z "$fdesc" ] && continue
+
+        local fstatus
         fstatus=$(read_status "$md_file")
         if [ -n "$fstatus" ] && [ "$fstatus" != "stable" ]; then
             fdesc="${fdesc} [${fstatus}]"
