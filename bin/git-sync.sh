@@ -1,21 +1,47 @@
 #!/usr/bin/env bash
 #
-# git-sync - Compose independent git repositories into a pseudo-monorepo
+# git-sync.sh - Compose independent git repositories into a pseudo-monorepo
 #
-# Manages external repository dependencies declared in .git-sync.yaml.
-# Supports two modes:
+# A single-file tool that manages external repository dependencies declared
+# in .git-sync.yaml. Only requires bash and git. No other dependencies.
+#
+# Two sync modes:
+#   update-branch   - track a branch, pull latest on sync
 #   checkout-commit - pin to a specific commit or tag
-#   update-branch   - track and pull the latest on a branch
 #
-# Only requires bash and git. No other dependencies.
+# Sections (search for "── <name>" to jump):
+#   Config     - Pure awk YAML parser. Read/write .git-sync.yaml fields.
+#   Gitignore  - Auto-add managed repo paths to .gitignore.
+#   Sync       - Clone, fetch, checkout, pull. Handles both modes + recursion.
+#   Snapshot   - Record current branch/commit back into config. Auto-commit.
+#   Hooks      - Install/remove pre-commit (snapshot) and post-merge (sync).
+#   CLI        - Usage text, status display, argument parsing, main dispatch.
+#
 
 set -euo pipefail
 
 # ── Config ───────────────────────────────────────────────────────────────────
 #
-# Reads .git-sync.yaml using pure bash/awk. The config format is a constrained
-# YAML subset: top-level section keys, flat key: value pairs (2-space indent),
-# and one list type (4-space indent with dash).
+# Pure awk parser for .git-sync.yaml. No yq or external YAML tools.
+#
+# The config format is a constrained YAML subset:
+#   - Top-level keys are section names (repo names or _settings)
+#   - Values are 2-space indented: "  key: value"
+#   - Lists are 4-space indented: "    - item"
+#   - Values can contain colons (URLs) — parser splits on first ": " only
+#   - Comments (#) and blank lines are ignored
+#
+# Functions:
+#   config_file_path            - resolve path to .git-sync.yaml via git root
+#   config_exists               - check if .git-sync.yaml exists
+#   all_config_files            - list both main and private config filenames
+#   config_list_repos           - list all top-level keys except _settings
+#   config_get REPO FIELD       - read a scalar value (returns "null" if missing)
+#   config_set REPO FIELD VAL   - write a scalar value in-place
+#   config_get_list REPO FIELD  - read list items as newline-separated output
+#   config_get_with_default     - config_get with fallback for null/empty
+#   config_get_setting_with_default - read from _settings with fallback
+#   report_subrepo_error        - formatted error output for sub-repo failures
 
 GIT_SYNC_CONFIG=".git-sync.yaml"
 GIT_SYNC_PRIVATE_CONFIG=".git-sync-private.yaml"
@@ -187,6 +213,10 @@ report_subrepo_error() {
 }
 
 # ── Gitignore ────────────────────────────────────────────────────────────────
+#
+# Auto-adds managed repo paths to .gitignore so cloned repos are not
+# tracked by the parent project. Called by sync when ensure-in-git-ignore
+# is true (the default). Idempotent — skips if already present.
 
 ensure_in_gitignore() {
     local path_to_ignore="$1"
@@ -210,6 +240,20 @@ ensure_in_gitignore() {
 }
 
 # ── Sync ─────────────────────────────────────────────────────────────────────
+#
+# Clone missing repos and update existing ones to their configured state.
+#
+# For each repo in config:
+#   1. Add path to .gitignore (if ensure-in-git-ignore is true)
+#   2. Clone if missing (sparse clone when sparse-paths is set)
+#   3. Check for dirty state (error if read-only, warn otherwise)
+#   4. Apply mode: checkout-commit (fetch + checkout SHA) or
+#      update-branch (checkout branch + pull)
+#   5. Recurse into sub-repos that have their own .git-sync.yaml
+#
+# Functions:
+#   sync_repo REPO_NAME  - sync a single repo
+#   sync_all             - iterate all repos in all config files
 
 GIT_SYNC_MAX_DEPTH="${GIT_SYNC_MAX_DEPTH:-10}"
 
@@ -381,6 +425,21 @@ sync_all() {
 }
 
 # ── Snapshot ─────────────────────────────────────────────────────────────────
+#
+# Record the current branch and HEAD commit of each managed repo back into
+# .git-sync.yaml. Runs automatically via the pre-commit hook so the config
+# always reflects the pinned state when you commit.
+#
+# Repos with read-only: true are skipped entirely.
+#
+# When commit-tracked-files-on-parent-commit is true, dirty sub-repos have
+# their tracked changes auto-committed (and optionally pushed) before the
+# snapshot records their state.
+#
+# Functions:
+#   auto_commit_tracked_files  - git add -u && commit in a sub-repo
+#   snapshot_repo REPO MSG     - snapshot a single repo
+#   snapshot_all [MSG]         - iterate all repos in all config files
 
 GIT_SYNC_COMMIT_MESSAGE="${GIT_SYNC_COMMIT_MESSAGE:-git-sync: auto-commit tracked changes}"
 
@@ -553,6 +612,21 @@ snapshot_all() {
 }
 
 # ── Hooks ────────────────────────────────────────────────────────────────────
+#
+# Install/remove git hooks that automate sync and snapshot:
+#   pre-commit  - runs "git-sync snapshot" (records state before each commit)
+#   post-merge  - runs "git-sync sync" (updates deps after pull/merge)
+#
+# Appends to existing hooks rather than overwriting. Uses a marker comment
+# to detect whether git-sync hooks are already installed.
+#
+# Functions:
+#   install_hooks              - install both hooks
+#   uninstall_hooks            - remove git-sync sections from both hooks
+#   install_pre_commit_hook    - install/append pre-commit hook
+#   install_post_merge_hook    - install/append post-merge hook
+#   remove_hook FILE           - remove git-sync block from a hook file
+#   find_git_sync_bin          - locate this script for hook references
 
 HOOK_MARKER="# git-sync managed hook"
 
@@ -668,6 +742,15 @@ find_git_sync_bin() {
 }
 
 # ── CLI ──────────────────────────────────────────────────────────────────────
+#
+# Command-line interface: usage text, status display, and main dispatch.
+#
+# Commands: sync, snapshot, init, uninit, status, help
+#
+# Functions:
+#   usage       - print help text
+#   cmd_status  - display state of all managed repos
+#   main        - parse args and dispatch to command handlers
 
 usage() {
     cat <<EOF
