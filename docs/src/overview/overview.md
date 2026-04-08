@@ -1,3 +1,9 @@
+---
+description:
+  Bash tool that composes independent git repos into a pseudo-monorepo via a
+  YAML config file -- an alternative to git submodule
+---
+
 # git-sync
 
 Compose independent git repositories into a pseudo-monorepo; an alternative to
