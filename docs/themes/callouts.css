@@ -2,7 +2,7 @@
  * callouts.css — styled alert boxes.
  *
  * Works with both code-one and blog styles. Colors adapt to dark mode.
- * Types: note (blue), tip (green), important (amber), warning (red).
+ * Types: note (green), tip (green), important (amber), warning (red).
  */
 
 /* ------------------------------------------------------------------ */
@@ -70,16 +70,16 @@ html.dark-mode .callout-tip p {
 }
 
 /* ------------------------------------------------------------------ */
-/* Note — blue/info                                                    */
+/* Note — green                                                        */
 /* ------------------------------------------------------------------ */
 
 .callout-note {
-  background: #dae8f5;
-  border-left-color: #4a8ac4;
+  background: #d7edda;
+  border-left-color: #5cb85c;
 }
 
 .callout-note .callout-title {
-  color: #2a5a8a;
+  color: #367a36;
 }
 
 .callout-note p {
@@ -87,16 +87,16 @@ html.dark-mode .callout-tip p {
 }
 
 html.dark-mode .callout-note {
-  background: #1a2430;
-  border-left-color: #4a80b0;
+  background: #1a2e1c;
+  border-left-color: #4a9a4a;
 }
 
 html.dark-mode .callout-note .callout-title {
-  color: #6aa0d0;
+  color: #6aba6a;
 }
 
 html.dark-mode .callout-note p {
-  color: #a0a8b0;
+  color: #a8b0a0;
 }
 
 /* ------------------------------------------------------------------ */
