@@ -15,3 +15,5 @@
 # Added by git-sync
 /external/bruha
 node_modules/
+.claude
+templates/hooks/session-start-context-db.sh
