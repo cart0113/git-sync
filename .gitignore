@@ -4,6 +4,7 @@
 *~
 /.git-sync-private.yaml
 /external
+/context-db/git-sync-project/overview.md
 /context-db/coding-standards/general-coding-standards
 /context-db/writing-standards
 /context-db/using-bruha
@@ -16,4 +17,3 @@
 /external/bruha
 node_modules/
 .claude
-templates/hooks/session-start-context-db.sh

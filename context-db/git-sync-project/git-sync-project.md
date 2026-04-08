@@ -1,5 +1,7 @@
 ---
-description: git-sync internals — how sync, snapshot, and hooks work
+description:
+  git-sync project knowledge — internals, architecture, conventions, docs, and
+  design decisions
 ---
 
 git-sync is a bash-only tool for composing independent git repositories into a
@@ -10,3 +12,4 @@ pipeline. `config-format.md` documents every `.git-sync.yaml` field and mode.
 `bash-conventions.md` covers the single-file coding patterns. See
 `private-config.md` for personal gitignored dependencies and
 `vs-package-managers.md` for when to use git-sync versus uv/pip/Cargo/npm.
+`writing-docs/` contains rules for maintaining this project's documentation.
