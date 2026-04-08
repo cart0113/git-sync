@@ -1,8 +1,3 @@
----
-description:
-  What git-sync is, why it exists (vs git submodule), quick start, and commands
----
-
 # git-sync
 
 Compose independent git repositories into a pseudo-monorepo; an alternative to
