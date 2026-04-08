@@ -35,5 +35,3 @@ STAMP=$(date +%Y%m%d%H%M%S)
 sed -i '' "s/?v=CACHEBUST/?v=${STAMP}/g" "$DOCS_DIR/index.html"
 sed -i '' "s/?v=[0-9]\{14\}/?v=${STAMP}/g" "$DOCS_DIR/index.html"
 echo "Cache bust: v=${STAMP}"
-
-npx prettier --write "$DOCS_DIR/src/**/*.md" "$DOCS_DIR/themes/bruha-config.js" "$DOCS_DIR/index.html" 2>&1 | tail -1
