@@ -3,6 +3,8 @@
 Compose independent git repositories into a pseudo-monorepo; an alternative to
 git submodule.
 
+> [!NOTE] This project is in the **concept phase** and is very lightly tested.
+
 ## What is git-sync?
 
 git-sync manages a collection of independent git repos declared in a single YAML
