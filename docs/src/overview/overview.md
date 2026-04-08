@@ -3,7 +3,7 @@
 Compose independent git repositories into a pseudo-monorepo; an alternative to
 git submodule.
 
-> [!NOTE] This project is in the **concept phase** and is very lightly tested.
+> [!NOTE] This project is in the concept phase and is very lightly tested.
 
 ## What is git-sync?
 
