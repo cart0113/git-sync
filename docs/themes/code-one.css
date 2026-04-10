@@ -310,6 +310,7 @@ section.content {
 
 .markdown-section em {
   color: var(--t-heading);
+  font-weight: 500;
 }
 
 .markdown-section a {
