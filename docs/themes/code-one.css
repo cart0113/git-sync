@@ -308,6 +308,10 @@ section.content {
   margin-bottom: 1.2em;
 }
 
+.markdown-section em {
+  font-weight: 600;
+}
+
 .markdown-section a {
   color: var(--t-link);
   text-decoration: underline;
